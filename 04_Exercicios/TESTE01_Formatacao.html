@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>20 Exercícios - Java: Saída, Formatação e Entrada</title>
+  <style>
+    body {
+      background-color: #272822;
+      color: #f8f8f2;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    h1, h2 {
+      color: #66d9ef;
+    }
+    .codigo {
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 5px #000;
+      white-space: pre-wrap;
+      border-left: 3px solid #66d9ef;
+      position: relative;
+    }
+    .verde { color: #a6e22e; }
+    .amarelo { color: #e6db74; }
+    .azul { color: #66d9ef; }
+    .rosa { color: #f92672; }
+    .cinza { color: #75715e; }
+    .laranja { color: #fd971f; }
+    
+    input {
+      background-color: #1e1f1c;
+      color: #f8f8f2;
+      border: 1px solid #555;
+      padding: 5px 8px;
+      margin-top: 8px;
+      width: 200px;
+      font-family: 'Courier New', monospace;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #66d9ef;
+      box-shadow: 0 0 5px rgba(102, 217, 239, 0.3);
+    }
+    input.correto-input {
+      border-color: #a6e22e;
+      background-color: rgba(166, 226, 46, 0.1);
+    }
+    input.errado-input {
+      border-color: #f92672;
+      background-color: rgba(249, 38, 114, 0.1);
+    }
+    
+    .botoes-questao {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 16px;
+      background-color: #66d9ef;
+      color: #272822;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+    button.verificar-btn {
+      background-color: #66d9ef;
+    }
+    button.verificar-btn:hover {
+      background-color: #a6e22e;
+    }
+    button.gabarito-btn {
+      background-color: #fd971f;
+    }
+    button.gabarito-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.limpar-btn {
+      background-color: #75715e;
+    }
+    button.limpar-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.geral-btn {
+      background-color: #a6e22e;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+    button.geral-btn:hover {
+      background-color: #66d9ef;
+    }
+    
+    .feedback {
+      margin-top: 5px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+    
+    .correto {
+      color: #a6e22e;
+      font-weight: bold;
+    }
+    .errado {
+      color: #f92672;
+      font-weight: bold;
+    }
+    .gabarito-texto {
+      color: #66d9ef;
+      font-weight: bold;
+    }
+    
+    .dica {
+      color: #75715e;
+      font-size: 0.9em;
+      margin-top: 5px;
+      font-style: italic;
+    }
+    
+    .header-info {
+      background-color: #1e1f1c;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 1px solid #555;
+    }
+    
+    .badge {
+      display: inline-block;
+      background-color: #f92672;
+      color: white;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.8em;
+      margin-left: 5px;
+    }
+    
+    .resumo-final {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      border: 2px solid #66d9ef;
+      display: none;
+    }
+    
+    .barra-progresso {
+      background-color: #272822;
+      height: 25px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #555;
+    }
+    
+    .barra-progresso-preenchida {
+      height: 100%;
+      background: linear-gradient(90deg, #a6e22e, #66d9ef);
+      transition: width 0.8s ease;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #272822;
+      font-size: 12px;
+    }
+    
+    .numero-questao {
+      display: inline-block;
+      background-color: #66d9ef;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 0.9em;
+    }
+    
+    .botoes-gerais {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    
+    @media (max-width: 600px) {
+      input {
+        width: 100%;
+      }
+      .botoes-questao {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>☕ 20 Exercícios de Java</h1>
+  <div class="header-info">
+    <p><strong>Tópicos:</strong> <span class="azul">print()</span>, <span class="azul">println()</span>, <span class="azul">printf()</span>, <span class="azul">Scanner</span>, Formatação de Saída</p>
+    <p><span class="cinza">💡 Digite APENAS o valor que será impresso no console, sem aspas ou ponto-e-vírgula.</span></p>
+    <p><span class="laranja">📌 Você pode verificar cada questão individualmente ou todas de uma vez!</span></p>
+  </div>
+  
+  <div id="exercicios"></div>
+  
+  <div class="botoes-gerais">
+    <button class="geral-btn" onclick="verificarTodas()">✅ Verificar Todas</button>
+    <button class="geral-btn" style="background-color: #fd971f;" onclick="mostrarGabaritoTodas()">📖 Gabarito de Todas</button>
+    <button class="geral-btn" style="background-color: #75715e;" onclick="limparTudo()">🧹 Limpar Tudo</button>
+    <button class="geral-btn" style="background-color: #f92672; color: white;" onclick="gerarExercicios()">🔄 Nova Série</button>
+  </div>
+  
+  <div id="resumoFinal" class="resumo-final">
+    <h3>📊 Resultado Final</h3>
+    <div id="estatisticas"></div>
+  </div>
+
+  <script>
+    const valores = {};
+
+    function gerarNumero(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function gerarStringAleatoria(tamanho) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let resultado = '';
+      for (let i = 0; i < tamanho; i++) {
+        resultado += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return resultado;
+    }
+
+    function gerarExercicios() {
+      const container = document.getElementById("exercicios");
+      container.innerHTML = "";
+      document.getElementById("resumoFinal").style.display = "none";
+
+      // ===== Exercício 1: println simples =====
+      const nome = gerarStringAleatoria(5);
+      valores[1] = {
+        texto: `System.out.<span class="azul">println</span>(<span class="amarelo">"Olá, ${nome}!"</span>);`,
+        resultado: `Olá, ${nome}!`,
+        dica: "println() adiciona uma quebra de linha automaticamente"
+      };
+
+      // ===== Exercício 2: print sem quebra =====
+      const cidade = gerarStringAleatoria(6);
+      valores[2] = {
+        texto: `System.out.<span class="azul">print</span>(<span class="amarelo">"Cidade: ${cidade}"</span>);`,
+        resultado: `Cidade: ${cidade}`,
+        dica: "print() NÃO adiciona quebra de linha no final"
+      };
+
+      // ===== Exercício 3: printf com %d =====
+      const num3 = gerarNumero(1, 100);
+      valores[3] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"Número: %d"</span>, <span class="verde">${num3}</span>);`,
+        resultado: `Número: ${num3}`,
+        dica: "%d formata números inteiros"
+      };
+
+      // ===== Exercício 4: printf com %f =====
+      const num4 = (Math.random() * 50 + 10).toFixed(3);
+      valores[4] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"Valor: %.2f"</span>, <span class="verde">${num4}</span>);`,
+        resultado: `Valor: ${Number(num4).toFixed(2)}`,
+        dica: "%.2f formata com 2 casas decimais"
+      };
+
+      // ===== Exercício 5: printf com %s =====
+      const texto5 = gerarStringAleatoria(4);
+      valores[5] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"Texto: %s"</span>, <span class="amarelo">"${texto5}"</span>);`,
+        resultado: `Texto: ${texto5}`,
+        dica: "%s formata strings"
+      };
+
+      // ===== Exercício 6: SUBSTITUÍDO - printf com %d e operação matemática =====
+      const num6a = gerarNumero(10, 99);
+      const num6b = gerarNumero(2, 9);
+      valores[6] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"Resultado: %d"</span>, <span class="verde">${num6a} * ${num6b}</span>);`,
+        resultado: `Resultado: ${num6a * num6b}`,
+        dica: "O printf calcula a operação antes de imprimir"
+      };
+
+      // ===== Exercício 7: printf com %o (octal) =====
+      const num7 = gerarNumero(10, 99);
+      valores[7] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"%o"</span>, <span class="verde">${num7}</span>);`,
+        resultado: num7.toString(8),
+        dica: "%o mostra o número em octal (base 8)"
+      };
+
+      // ===== Exercício 8: printf com %x (hexadecimal) =====
+      const num8 = gerarNumero(10, 99);
+      valores[8] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"%x"</span>, <span class="verde">${num8}</span>);`,
+        resultado: num8.toString(16),
+        dica: "%x mostra o número em hexadecimal (minúsculo)"
+      };
+
+      // ===== Exercício 9: printf com %X (hexadecimal maiúsculo) =====
+      const num9 = gerarNumero(10, 99);
+      valores[9] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"%X"</span>, <span class="verde">${num9}</span>);`,
+        resultado: num9.toString(16).toUpperCase(),
+        dica: "%X mostra o número em hexadecimal (maiúsculo)"
+      };
+
+      // ===== Exercício 10: printf com formatação de largura =====
+      const num10 = gerarNumero(1, 9);
+      valores[10] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"%03d"</span>, <span class="verde">${num10}</span>);`,
+        resultado: num10.toString().padStart(3, '0'),
+        dica: "%03d preenche com zeros à esquerda até ter 3 dígitos"
+      };
+
+      // ===== Exercício 11: printf com %- (alinhamento à esquerda) =====
+      const texto11 = gerarStringAleatoria(4);
+      valores[11] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"|%-10s|"</span>, <span class="amarelo">"${texto11}"</span>);`,
+        resultado: `|${texto11.padEnd(10, ' ')}|`,
+        dica: "%-10s alinha o texto à esquerda com 10 caracteres de largura"
+      };
+
+      // ===== Exercício 12: printf com separador de milhares =====
+      const num12 = gerarNumero(1000, 999999);
+      valores[12] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"%,d"</span>, <span class="verde">${num12}</span>);`,
+        resultado: num12.toLocaleString('en-US'),
+        dica: "%,d adiciona separador de milhares (vírgula)"
+      };
+
+      // ===== Exercício 13: printf com %f e 3 casas =====
+      const num13 = (Math.random() * 100).toFixed(5);
+      valores[13] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"%.3f"</span>, <span class="verde">${num13}</span>);`,
+        resultado: Number(num13).toFixed(3),
+        dica: "%.3f formata com 3 casas decimais"
+      };
+
+      // ===== Exercício 14: Múltiplos %d =====
+      const a14 = gerarNumero(5, 20);
+      const b14 = gerarNumero(1, 10);
+      valores[14] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"%d + %d = %d"</span>, <span class="verde">${a14}</span>, <span class="verde">${b14}</span>, <span class="verde">${a14 + b14}</span>);`,
+        resultado: `${a14} + ${b14} = ${a14 + b14}`,
+        dica: "Múltiplos %d correspondem a múltiplos argumentos"
+      };
+
+      // ===== Exercício 15: printf com escape de caracteres =====
+      const texto15 = gerarStringAleatoria(3);
+      valores[15] = {
+        texto: `System.out.<span class="azul">printf</span>(<span class="amarelo">"\\"${texto15}\\""</span>);`,
+        resultado: `"${texto15}"`,
+        dica: "\\\" dentro da string imprime aspas duplas"
+      };
+
+      // ===== Exercício 16: Scanner - nextInt() =====
+      const num16 = gerarNumero(10, 99);
+      valores[16] = {
+        texto: `Scanner scanner = new Scanner(System.in);<br>int valor = scanner.<span class="azul">nextInt</span>();<br>System.out.<span class="azul">println</span>(valor + 10);`,
+        resultado: (num16 + 10).toString(),
+        dica: `Simule que o usuário digitou ${num16}`,
+        entradaUsuario: num16
+      };
+
+      // ===== Exercício 17: Scanner - nextDouble() =====
+      const num17 = (Math.random() * 50 + 1).toFixed(1);
+      valores[17] = {
+        texto: `Scanner scanner = new Scanner(System.in);<br>double valor = scanner.<span class="azul">nextDouble</span>();<br>System.out.<span class="azul">printf</span>(<span class="amarelo">"%.1f"</span>, valor * 2);`,
+        resultado: (Number(num17) * 2).toFixed(1),
+        dica: `Simule que o usuário digitou ${num17}`,
+        entradaUsuario: Number(num17)
+      };
+
+      // ===== Exercício 18: Scanner - nextLine() =====
+      const texto18 = gerarStringAleatoria(6);
+      valores[18] = {
+        texto: `Scanner scanner = new Scanner(System.in);<br>String nome = scanner.<span class="azul">nextLine</span>();<br>System.out.<span class="azul">println</span>(<span class="amarelo">"Olá "</span> + nome);`,
+        resultado: `Olá ${texto18}`,
+        dica: `Simule que o usuário digitou "${texto18}"`,
+        entradaUsuario: texto18
+      };
+
+      // ===== Exercício 19: Scanner - next() =====
+      const texto19 = gerarStringAleatoria(4);
+      valores[19] = {
+        texto: `Scanner scanner = new Scanner(System.in);<br>String palavra = scanner.<span class="azul">next</span>();<br>System.out.<span class="azul">println</span>(palavra.<span class="azul">toUpperCase</span>());`,
+        resultado: texto19.toUpperCase(),
+        dica: `Simule que o usuário digitou "${texto19}"`,
+        entradaUsuario: texto19
+      };
+
+      // ===== Exercício 20: Combinação print, printf e Scanner =====
+      const num20 = gerarNumero(1, 100);
+      const texto20 = gerarStringAleatoria(5);
+      valores[20] = {
+        texto: `Scanner scanner = new Scanner(System.in);<br>int x = scanner.<span class="azul">nextInt</span>();<br>System.out.<span class="azul">printf</span>(<span class="amarelo">"${texto20}: %d"</span>, x * 2);`,
+        resultado: `${texto20}: ${num20 * 2}`,
+        dica: `Simule que o usuário digitou ${num20}`,
+        entradaUsuario: num20
+      };
+
+      // Renderizar exercícios
+      for (let i = 1; i <= 20; i++) {
+        const bloco = document.createElement("div");
+        bloco.className = "codigo";
+        bloco.id = `bloco${i}`;
+        
+        let html = `<span class="numero-questao">${i}</span> `;
+        html += valores[i].texto;
+        
+        if (valores[i].dica) {
+          html += `<div class="dica">💡 Dica: ${valores[i].dica}</div>`;
+        }
+        
+        html += `<br><input type="text" id="resposta${i}" placeholder="Digite o valor impresso" oninput="limparFeedback(${i})">`;
+        html += `<div class="botoes-questao">`;
+        html += `<button class="verificar-btn" onclick="verificarQuestao(${i})">🔍 Verificar</button>`;
+        html += `<button class="gabarito-btn" onclick="mostrarGabarito(${i})">📖 Gabarito</button>`;
+        html += `<button class="limpar-btn" onclick="limparQuestao(${i})">🧹 Limpar</button>`;
+        html += `</div>`;
+        html += `<div id="feedback${i}" class="feedback"></div>`;
+        
+        bloco.innerHTML = html;
+        container.appendChild(bloco);
+      }
+    }
+
+    function verificarQuestao(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      const resposta = input.value.trim();
+
+      // Remove classes anteriores
+      input.classList.remove('correto-input', 'errado-input');
+
+      let mensagemEsperado = esperado;
+      if (valores[i].entradaUsuario !== undefined) {
+        mensagemEsperado += ` (entrada: ${valores[i].entradaUsuario})`;
+      }
+
+      if (resposta === esperado) {
+        feedback.innerHTML = `<span class='correto'>✅ Correto! 🎉</span>`;
+        feedback.style.backgroundColor = 'rgba(166, 226, 46, 0.15)';
+        input.classList.add('correto-input');
+      } else {
+        feedback.innerHTML = `<span class='errado'>❌ Errado. Resposta esperada: ${mensagemEsperado}</span>`;
+        feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+        input.classList.add('errado-input');
+      }
+    }
+
+    function mostrarGabarito(i) {
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      
+      let msg = `📖 Gabarito: ${esperado}`;
+      if (valores[i].entradaUsuario !== undefined) {
+        msg += ` (entrada simulada: ${valores[i].entradaUsuario})`;
+      }
+      
+      feedback.innerHTML = `<span class='gabarito-texto'>${msg}</span>`;
+      feedback.style.backgroundColor = 'rgba(102, 217, 239, 0.1)';
+    }
+
+    function limparQuestao(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      input.value = '';
+      input.classList.remove('correto-input', 'errado-input');
+      feedback.innerHTML = '';
+      feedback.style.backgroundColor = 'transparent';
+    }
+
+    function limparFeedback(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      input.classList.remove('correto-input', 'errado-input');
+      // Só limpa se não tiver gabarito
+      if (!feedback.innerHTML.includes('Gabarito')) {
+        feedback.innerHTML = '';
+        feedback.style.backgroundColor = 'transparent';
+      }
+    }
+
+    function verificarTodas() {
+      let acertos = 0;
+      let total = 20;
+
+      for (let i = 1; i <= 20; i++) {
+        verificarQuestao(i);
+        
+        const feedback = document.getElementById(`feedback${i}`);
+        if (feedback.innerHTML.includes('Correto')) {
+          acertos++;
+        }
+      }
+
+      // Mostrar resumo final
+      const resumoDiv = document.getElementById("resumoFinal");
+      resumoDiv.style.display = "block";
+      
+      const estatisticas = document.getElementById("estatisticas");
+      const porcentagem = (acertos / total * 100).toFixed(1);
+      
+      let emoji, mensagem;
+      if (porcentagem >= 80) {
+        emoji = '🏆';
+        mensagem = 'Excelente! Você domina os conceitos de saída e entrada em Java!';
+      } else if (porcentagem >= 60) {
+        emoji = '📚';
+        mensagem = 'Bom trabalho! Revise os conceitos de formatação e Scanner para melhorar.';
+      } else {
+        emoji = '💪';
+        mensagem = 'Continue praticando! Foque em entender os formatadores do printf e o uso do Scanner.';
+      }
+      
+      estatisticas.innerHTML = `
+        <p><strong>${emoji} Resultado:</strong> ${acertos} de ${total} acertos (${porcentagem}%)</p>
+        <div class="barra-progresso">
+          <div class="barra-progresso-preenchida" style="width: ${porcentagem}%;">
+            ${porcentagem}%
+          </div>
+        </div>
+        <p style="margin-top: 15px; color: #75715e; font-style: italic;">${mensagem}</p>
+        <p style="margin-top: 10px; color: #66d9ef; font-size: 0.9em;">
+          💡 Clique em "Gabarito de Todas" para ver todas as respostas corretas.
+        </p>
+      `;
+    }
+
+    function mostrarGabaritoTodas() {
+      for (let i = 1; i <= 20; i++) {
+        mostrarGabarito(i);
+      }
+    }
+
+    function limparTudo() {
+      for (let i = 1; i <= 20; i++) {
+        limparQuestao(i);
+      }
+      document.getElementById("resumoFinal").style.display = "none";
+    }
+
+    // Executar ao abrir a página
+    gerarExercicios();
+  </script>
+</body>
+</html>
