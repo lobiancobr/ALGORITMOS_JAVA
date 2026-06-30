@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>20 Exercícios - Java: Estruturas Condicionais</title>
+  <style>
+    body {
+      background-color: #272822;
+      color: #f8f8f2;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    h1, h2 {
+      color: #66d9ef;
+    }
+    .codigo {
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 5px #000;
+      white-space: pre-wrap;
+      border-left: 3px solid #fd971f;
+      position: relative;
+    }
+    .verde { color: #a6e22e; }
+    .amarelo { color: #e6db74; }
+    .azul { color: #66d9ef; }
+    .rosa { color: #f92672; }
+    .cinza { color: #75715e; }
+    .laranja { color: #fd971f; }
+    .roxo { color: #ae81ff; }
+    
+    input {
+      background-color: #1e1f1c;
+      color: #f8f8f2;
+      border: 1px solid #555;
+      padding: 5px 8px;
+      margin-top: 8px;
+      width: 200px;
+      font-family: 'Courier New', monospace;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #66d9ef;
+      box-shadow: 0 0 5px rgba(102, 217, 239, 0.3);
+    }
+    input.correto-input {
+      border-color: #a6e22e;
+      background-color: rgba(166, 226, 46, 0.1);
+    }
+    input.errado-input {
+      border-color: #f92672;
+      background-color: rgba(249, 38, 114, 0.1);
+    }
+    
+    .botoes-questao {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 16px;
+      background-color: #66d9ef;
+      color: #272822;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+    button.verificar-btn {
+      background-color: #66d9ef;
+    }
+    button.verificar-btn:hover {
+      background-color: #a6e22e;
+    }
+    button.gabarito-btn {
+      background-color: #fd971f;
+    }
+    button.gabarito-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.limpar-btn {
+      background-color: #75715e;
+    }
+    button.limpar-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.geral-btn {
+      background-color: #a6e22e;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+    button.geral-btn:hover {
+      background-color: #66d9ef;
+    }
+    
+    .feedback {
+      margin-top: 5px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+    
+    .correto {
+      color: #a6e22e;
+      font-weight: bold;
+    }
+    .errado {
+      color: #f92672;
+      font-weight: bold;
+    }
+    .gabarito-texto {
+      color: #66d9ef;
+      font-weight: bold;
+    }
+    
+    .dica {
+      color: #75715e;
+      font-size: 0.9em;
+      margin-top: 5px;
+      font-style: italic;
+    }
+    
+    .header-info {
+      background-color: #1e1f1c;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 1px solid #555;
+    }
+    
+    .badge {
+      display: inline-block;
+      background-color: #f92672;
+      color: white;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.8em;
+      margin-left: 5px;
+    }
+    
+    .resumo-final {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      border: 2px solid #fd971f;
+      display: none;
+    }
+    
+    .barra-progresso {
+      background-color: #272822;
+      height: 25px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #555;
+    }
+    
+    .barra-progresso-preenchida {
+      height: 100%;
+      background: linear-gradient(90deg, #fd971f, #f92672);
+      transition: width 0.8s ease;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 12px;
+    }
+    
+    .numero-questao {
+      display: inline-block;
+      background-color: #fd971f;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 0.9em;
+    }
+    
+    .botoes-gerais {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    
+    .tipo-condicional {
+      display: inline-block;
+      background-color: #ae81ff;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    
+    @media (max-width: 600px) {
+      input {
+        width: 100%;
+      }
+      .botoes-questao {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔀 20 Exercícios de Java - Estruturas Condicionais</h1>
+  <div class="header-info">
+    <p><strong>Tópicos:</strong> <span class="azul">if</span>, <span class="azul">if-else</span>, <span class="azul">if aninhado</span>, <span class="azul">switch</span> (com/sem break, com/sem default)</p>
+    <p><span class="cinza">💡 Digite APENAS o valor que será impresso no console, sem aspas ou ponto-e-vírgula.</span></p>
+    <p><span class="laranja">📌 Cada exercício tem valores aleatórios - gere uma nova série quando quiser!</span></p>
+  </div>
+  
+  <div id="exercicios"></div>
+  
+  <div class="botoes-gerais">
+    <button class="geral-btn" onclick="verificarTodas()">✅ Verificar Todas</button>
+    <button class="geral-btn" style="background-color: #fd971f;" onclick="mostrarGabaritoTodas()">📖 Gabarito de Todas</button>
+    <button class="geral-btn" style="background-color: #75715e;" onclick="limparTudo()">🧹 Limpar Tudo</button>
+    <button class="geral-btn" style="background-color: #f92672; color: white;" onclick="gerarExercicios()">🔄 Nova Série</button>
+  </div>
+  
+  <div id="resumoFinal" class="resumo-final">
+    <h3>📊 Resultado Final</h3>
+    <div id="estatisticas"></div>
+  </div>
+
+  <script>
+    const valores = {};
+
+    function gerarNumero(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function gerarExercicios() {
+      const container = document.getElementById("exercicios");
+      container.innerHTML = "";
+      document.getElementById("resumoFinal").style.display = "none";
+
+      // ===== Exercício 1: if simples =====
+      const x1 = gerarNumero(1, 20);
+      let resultado1;
+      let codigo1 = `int x = ${x1};\nif (x > 10) {\n  System.out.println(x * 2);\n} else {\n  System.out.println(x + 5);\n}`;
+      if (x1 > 10) {
+        resultado1 = (x1 * 2).toString();
+      } else {
+        resultado1 = (x1 + 5).toString();
+      }
+      valores[1] = {
+        texto: codigo1.replace(/\n/g, '<br>'),
+        resultado: resultado1,
+        dica: "if-else simples - verifica se x > 10",
+        tipo: "if-else"
+      };
+
+      // ===== Exercício 2: if-else com operador lógico =====
+      const x2 = gerarNumero(1, 30);
+      const y2 = gerarNumero(1, 20);
+      let resultado2;
+      let codigo2 = `int a = ${x2}, b = ${y2};\nif (a > b && a < 25) {\n  System.out.println(a + b);\n} else {\n  System.out.println(a - b);\n}`;
+      if (x2 > y2 && x2 < 25) {
+        resultado2 = (x2 + y2).toString();
+      } else {
+        resultado2 = (x2 - y2).toString();
+      }
+      valores[2] = {
+        texto: codigo2.replace(/\n/g, '<br>'),
+        resultado: resultado2,
+        dica: "Usa && (E) para verificar duas condições",
+        tipo: "if-else com &&"
+      };
+
+      // ===== Exercício 3: if-else com operador OU =====
+      const x3 = gerarNumero(1, 30);
+      const y3 = gerarNumero(1, 20);
+      let resultado3;
+      let codigo3 = `int a = ${x3}, b = ${y3};\nif (a > 20 || b < 5) {\n  System.out.println(a * b);\n} else {\n  System.out.println(a + b);\n}`;
+      if (x3 > 20 || y3 < 5) {
+        resultado3 = (x3 * y3).toString();
+      } else {
+        resultado3 = (x3 + y3).toString();
+      }
+      valores[3] = {
+        texto: codigo3.replace(/\n/g, '<br>'),
+        resultado: resultado3,
+        dica: "Usa || (OU) - basta uma condição ser verdadeira",
+        tipo: "if-else com ||"
+      };
+
+      // ===== Exercício 4: if aninhado =====
+      const x4 = gerarNumero(1, 50);
+      const y4 = gerarNumero(1, 30);
+      let resultado4;
+      let codigo4 = `int a = ${x4}, b = ${y4};\nif (a > 30) {\n  if (b > 15) {\n    System.out.println(a - b);\n  } else {\n    System.out.println(a + b);\n  }\n} else {\n  System.out.println(a * b);\n}`;
+      if (x4 > 30) {
+        if (y4 > 15) {
+          resultado4 = (x4 - y4).toString();
+        } else {
+          resultado4 = (x4 + y4).toString();
+        }
+      } else {
+        resultado4 = (x4 * y4).toString();
+      }
+      valores[4] = {
+        texto: codigo4.replace(/\n/g, '<br>'),
+        resultado: resultado4,
+        dica: "If aninhado - primeiro verifica a > 30, depois b > 15",
+        tipo: "if aninhado"
+      };
+
+      // ===== Exercício 5: if aninhado mais complexo =====
+      const x5 = gerarNumero(1, 40);
+      const y5 = gerarNumero(1, 40);
+      const z5 = gerarNumero(1, 40);
+      let resultado5;
+      let codigo5 = `int a = ${x5}, b = ${y5}, c = ${z5};\nif (a > b) {\n  if (b > c) {\n    System.out.println(a + b + c);\n  } else {\n    System.out.println(a * b);\n  }\n} else {\n  if (a > c) {\n    System.out.println(b - c);\n  } else {\n    System.out.println(c - a);\n  }\n}`;
+      if (x5 > y5) {
+        if (y5 > z5) {
+          resultado5 = (x5 + y5 + z5).toString();
+        } else {
+          resultado5 = (x5 * y5).toString();
+        }
+      } else {
+        if (x5 > z5) {
+          resultado5 = (y5 - z5).toString();
+        } else {
+          resultado5 = (z5 - x5).toString();
+        }
+      }
+      valores[5] = {
+        texto: codigo5.replace(/\n/g, '<br>'),
+        resultado: resultado5,
+        dica: "If aninhado com múltiplas condições",
+        tipo: "if aninhado complexo"
+      };
+
+      // ===== Exercício 6: if-else if =====
+      const x6 = gerarNumero(1, 100);
+      let resultado6;
+      let codigo6 = `int nota = ${x6};\nif (nota >= 90) {\n  System.out.println('A');\n} else if (nota >= 70) {\n  System.out.println('B');\n} else if (nota >= 50) {\n  System.out.println('C');\n} else {\n  System.out.println('D');\n}`;
+      if (x6 >= 90) {
+        resultado6 = 'A';
+      } else if (x6 >= 70) {
+        resultado6 = 'B';
+      } else if (x6 >= 50) {
+        resultado6 = 'C';
+      } else {
+        resultado6 = 'D';
+      }
+      valores[6] = {
+        texto: codigo6.replace(/\n/g, '<br>'),
+        resultado: resultado6,
+        dica: "if-else if encadeado para classificação de notas",
+        tipo: "if-else if"
+      };
+
+      // ===== Exercício 7: switch com break =====
+      const x7 = gerarNumero(1, 6);
+      let resultado7;
+      let codigo7 = `int dia = ${x7};\nswitch (dia) {\n  case 1: System.out.println('Domingo'); break;\n  case 2: System.out.println('Segunda'); break;\n  case 3: System.out.println('Terça'); break;\n  case 4: System.out.println('Quarta'); break;\n  case 5: System.out.println('Quinta'); break;\n  case 6: System.out.println('Sexta'); break;\n  default: System.out.println('Sábado');\n}`;
+      const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+      resultado7 = dias[x7 - 1] || 'Sábado';
+      valores[7] = {
+        texto: codigo7.replace(/\n/g, '<br>'),
+        resultado: resultado7,
+        dica: "Switch com break - cada case executa apenas o seu bloco",
+        tipo: "switch com break"
+      };
+
+      // ===== Exercício 8: switch sem break (fall-through) =====
+      const x8 = gerarNumero(1, 5);
+      let resultado8 = '';
+      let codigo8 = `int num = ${x8};\nswitch (num) {\n  case 1: System.out.print('Um ');\n  case 2: System.out.print('Dois ');\n  case 3: System.out.print('Três ');\n  case 4: System.out.print('Quatro ');\n  default: System.out.print('Cinco ');\n}`;
+      let temp8 = x8;
+      if (temp8 <= 1) resultado8 += 'Um ';
+      if (temp8 <= 2) resultado8 += 'Dois ';
+      if (temp8 <= 3) resultado8 += 'Três ';
+      if (temp8 <= 4) resultado8 += 'Quatro ';
+      resultado8 += 'Cinco ';
+      resultado8 = resultado8.trim();
+      
+      valores[8] = {
+        texto: codigo8.replace(/\n/g, '<br>'),
+        resultado: resultado8,
+        dica: "Switch SEM break - executa todos os cases a partir do escolhido (fall-through)",
+        tipo: "switch sem break"
+      };
+
+      // ===== Exercício 9: switch com fall-through parcial =====
+      const x9 = gerarNumero(0, 4);
+      let resultado9 = '';
+      let codigo9 = `int opcao = ${x9};\nswitch (opcao) {\n  case 0: System.out.print('Zero ');\n  case 1: System.out.print('Um ');\n  case 2: System.out.print('Dois '); break;\n  case 3: System.out.print('Três ');\n  case 4: System.out.print('Quatro '); break;\n  default: System.out.print('Outro ');\n}`;
+      let temp9 = x9;
+      if (temp9 === 0) resultado9 += 'Zero ';
+      if (temp9 <= 1) resultado9 += 'Um ';
+      if (temp9 <= 2) resultado9 += 'Dois ';
+      if (temp9 === 3) resultado9 += 'Três ';
+      if (temp9 <= 4 && temp9 >= 3) resultado9 += 'Quatro ';
+      if (temp9 > 4) resultado9 += 'Outro ';
+      resultado9 = resultado9.trim();
+      
+      valores[9] = {
+        texto: codigo9.replace(/\n/g, '<br>'),
+        resultado: resultado9,
+        dica: "Switch com break em alguns casos - fall-through parcial",
+        tipo: "switch misto"
+      };
+
+      // ===== Exercício 10: switch com default =====
+      const x10 = gerarNumero(1, 8);
+      let resultado10;
+      let codigo10 = `int mes = ${x10};\nswitch (mes) {\n  case 1:\n  case 2:\n  case 3: System.out.println('Verão'); break;\n  case 4:\n  case 5:\n  case 6: System.out.println('Outono'); break;\n  case 7:\n  case 8:\n  case 9: System.out.println('Inverno'); break;\n  case 10:\n  case 11:\n  case 12: System.out.println('Primavera'); break;\n  default: System.out.println('Mês inválido');\n}`;
+      const estacoes = ['', 'Verão', 'Verão', 'Verão', 'Outono', 'Outono', 'Outono', 'Inverno', 'Inverno', 'Inverno', 'Primavera', 'Primavera', 'Primavera'];
+      resultado10 = estacoes[x10] || 'Mês inválido';
+      
+      valores[10] = {
+        texto: codigo10.replace(/\n/g, '<br>'),
+        resultado: resultado10,
+        dica: "Switch com cases agrupados (sem break entre eles) e default",
+        tipo: "switch com cases agrupados"
+      };
+
+      // ===== Exercício 11: switch com default executando =====
+      const x11 = gerarNumero(10, 15);
+      let resultado11 = '';
+      let codigo11 = `int valor = ${x11};\nswitch (valor % 5) {\n  case 0: System.out.print('A');\n  case 1: System.out.print('B'); break;\n  case 2: System.out.print('C');\n  case 3: System.out.print('D');\n  default: System.out.print('E');\n}`;
+      let resto11 = x11 % 5;
+      if (resto11 === 0) resultado11 += 'A';
+      if (resto11 <= 1) resultado11 += 'B';
+      if (resto11 === 2) resultado11 += 'C';
+      if (resto11 >= 2 && resto11 <= 3) resultado11 += 'D';
+      if (resto11 !== 1 && resto11 !== 0) resultado11 += 'E';
+      
+      valores[11] = {
+        texto: codigo11.replace(/\n/g, '<br>'),
+        resultado: resultado11,
+        dica: "Default executa quando nenhum case corresponde (ou por fall-through)",
+        tipo: "switch com default"
+      };
+
+      // ===== Exercício 12: switch com break em todos =====
+      const x12 = gerarNumero(1, 7);
+      let resultado12;
+      let codigo12 = `int op = ${x12};\nswitch (op % 4) {\n  case 0: System.out.println(op + 10); break;\n  case 1: System.out.println(op * 2); break;\n  case 2: System.out.println(op - 5); break;\n  case 3: System.out.println(op / 2); break;\n  default: System.out.println(0);\n}`;
+      let resto12 = x12 % 4;
+      if (resto12 === 0) resultado12 = (x12 + 10).toString();
+      else if (resto12 === 1) resultado12 = (x12 * 2).toString();
+      else if (resto12 === 2) resultado12 = (x12 - 5).toString();
+      else if (resto12 === 3) resultado12 = Math.floor(x12 / 2).toString();
+      else resultado12 = '0';
+      
+      valores[12] = {
+        texto: codigo12.replace(/\n/g, '<br>'),
+        resultado: resultado12,
+        dica: "Switch com break em todos os cases - cada caso é independente",
+        tipo: "switch com break total"
+      };
+
+      // ===== Exercício 13: if com operador ternário =====
+      const x13 = gerarNumero(1, 50);
+      let resultado13;
+      let codigo13 = `int x = ${x13};\nString resultado = (x > 25) ? "Maior" : "Menor ou igual";\nSystem.out.println(resultado);`;
+      resultado13 = x13 > 25 ? "Maior" : "Menor ou igual";
+      
+      valores[13] = {
+        texto: codigo13.replace(/\n/g, '<br>'),
+        resultado: resultado13,
+        dica: "Operador ternário - condição ? valor_se_verdadeiro : valor_se_falso",
+        tipo: "operador ternário"
+      };
+
+      // ===== Exercício 14: if aninhado com números =====
+      const x14 = gerarNumero(1, 30);
+      const y14 = gerarNumero(1, 30);
+      let resultado14;
+      let codigo14 = `int a = ${x14}, b = ${y14};\nif (a % 2 == 0) {\n  if (b % 2 == 0) {\n    System.out.println(a + b);\n  } else {\n    System.out.println(a - b);\n  }\n} else {\n  if (b % 2 == 0) {\n    System.out.println(a * b);\n  } else {\n    System.out.println(a / b);\n  }\n}`;
+      if (x14 % 2 === 0) {
+        if (y14 % 2 === 0) {
+          resultado14 = (x14 + y14).toString();
+        } else {
+          resultado14 = (x14 - y14).toString();
+        }
+      } else {
+        if (y14 % 2 === 0) {
+          resultado14 = (x14 * y14).toString();
+        } else {
+          resultado14 = Math.floor(x14 / y14).toString();
+        }
+      }
+      
+      valores[14] = {
+        texto: codigo14.replace(/\n/g, '<br>'),
+        resultado: resultado14,
+        dica: "If aninhado verificando se números são pares ou ímpares",
+        tipo: "if aninhado com par/ímpar"
+      };
+
+      // ===== Exercício 15: switch com expressão =====
+      const x15 = gerarNumero(5, 15);
+      let resultado15;
+      let codigo15 = `int n = ${x15};\nswitch (n % 3) {\n  case 0: System.out.println(n * 3); break;\n  case 1: System.out.println(n + 10); break;\n  case 2: System.out.println(n - 5); break;\n}`;
+      let resto15 = x15 % 3;
+      if (resto15 === 0) resultado15 = (x15 * 3).toString();
+      else if (resto15 === 1) resultado15 = (x15 + 10).toString();
+      else resultado15 = (x15 - 5).toString();
+      
+      valores[15] = {
+        texto: codigo15.replace(/\n/g, '<br>'),
+        resultado: resultado15,
+        dica: "Switch com base no resto da divisão por 3",
+        tipo: "switch com expressão"
+      };
+
+      // ===== Exercício 16: if-else com múltiplas condições =====
+      const x16 = gerarNumero(1, 50);
+      const y16 = gerarNumero(1, 50);
+      let resultado16;
+      let codigo16 = `int a = ${x16}, b = ${y16};\nif (a > 30 || b < 10) {\n  System.out.println(a + b);\n} else if (a > 20 && b > 20) {\n  System.out.println(a * b);\n} else {\n  System.out.println(b - a);\n}`;
+      if (x16 > 30 || y16 < 10) {
+        resultado16 = (x16 + y16).toString();
+      } else if (x16 > 20 && y16 > 20) {
+        resultado16 = (x16 * y16).toString();
+      } else {
+        resultado16 = (y16 - x16).toString();
+      }
+      
+      valores[16] = {
+        texto: codigo16.replace(/\n/g, '<br>'),
+        resultado: resultado16,
+        dica: "if-else if com múltiplas condições compostas",
+        tipo: "if-else if composto"
+      };
+
+      // ===== Exercício 17: switch com default e sem break em alguns =====
+      const x17 = gerarNumero(1, 6);
+      let resultado17 = '';
+      let codigo17 = `int op = ${x17};\nswitch (op % 3) {\n  case 0: System.out.print('Zero ');\n  case 1: System.out.print('Um ');\n  case 2: System.out.print('Dois ');\n  default: System.out.print('Default ');\n}`;
+      let resto17 = x17 % 3;
+      if (resto17 === 0) resultado17 += 'Zero ';
+      if (resto17 <= 1) resultado17 += 'Um ';
+      if (resto17 <= 2) resultado17 += 'Dois ';
+      resultado17 += 'Default ';
+      resultado17 = resultado17.trim();
+      
+      valores[17] = {
+        texto: codigo17.replace(/\n/g, '<br>'),
+        resultado: resultado17,
+        dica: "Switch sem break - executa do case escolhido até o default",
+        tipo: "switch com fall-through e default"
+      };
+
+      // ===== Exercício 18: if-else if com faixas =====
+      const x18 = gerarNumero(1, 100);
+      let resultado18;
+      let codigo18 = `int valor = ${x18};\nif (valor < 30) {\n  System.out.println('Baixo');\n} else if (valor < 60) {\n  System.out.println('Médio');\n} else if (valor < 85) {\n  System.out.println('Alto');\n} else {\n  System.out.println('Muito Alto');\n}`;
+      if (x18 < 30) resultado18 = 'Baixo';
+      else if (x18 < 60) resultado18 = 'Médio';
+      else if (x18 < 85) resultado18 = 'Alto';
+      else resultado18 = 'Muito Alto';
+      
+      valores[18] = {
+        texto: codigo18.replace(/\n/g, '<br>'),
+        resultado: resultado18,
+        dica: "Classificação por faixas usando if-else if",
+        tipo: "if-else if com faixas"
+      };
+
+      // ===== Exercício 19: switch com break apenas no default =====
+      const x19 = gerarNumero(1, 5);
+      let resultado19 = '';
+      let codigo19 = `int n = ${x19};\nswitch (n) {\n  case 1: System.out.print('A');\n  case 2: System.out.print('B');\n  case 3: System.out.print('C'); break;\n  case 4: System.out.print('D');\n  default: System.out.print('E');\n}`;
+      let temp19 = x19;
+      if (temp19 === 1) resultado19 += 'A';
+      if (temp19 <= 2) resultado19 += 'B';
+      if (temp19 <= 3) resultado19 += 'C';
+      if (temp19 === 4) resultado19 += 'D';
+      if (temp19 >= 4 || temp19 > 4) resultado19 += 'E';
+      resultado19 = resultado19.trim();
+      
+      valores[19] = {
+        texto: codigo19.replace(/\n/g, '<br>'),
+        resultado: resultado19,
+        dica: "Switch com break apenas em alguns cases",
+        tipo: "switch com break seletivo"
+      };
+
+      // ===== Exercício 20: if aninhado com switch =====
+      const x20 = gerarNumero(1, 5);
+      const y20 = gerarNumero(1, 10);
+      let resultado20;
+      let codigo20 = `int a = ${x20}, b = ${y20};\nif (a > 3) {\n  switch (b % 3) {\n    case 0: System.out.println(a + b); break;\n    case 1: System.out.println(a * b); break;\n    default: System.out.println(b - a);\n  }\n} else {\n  switch (b % 2) {\n    case 0: System.out.println(a + 5); break;\n    default: System.out.println(b + 3);\n  }\n}`;
+      if (x20 > 3) {
+        let resto20 = y20 % 3;
+        if (resto20 === 0) resultado20 = (x20 + y20).toString();
+        else if (resto20 === 1) resultado20 = (x20 * y20).toString();
+        else resultado20 = (y20 - x20).toString();
+      } else {
+        let resto20 = y20 % 2;
+        if (resto20 === 0) resultado20 = (x20 + 5).toString();
+        else resultado20 = (y20 + 3).toString();
+      }
+      
+      valores[20] = {
+        texto: codigo20.replace(/\n/g, '<br>'),
+        resultado: resultado20,
+        dica: "Combinação de if com switch dentro dos blocos",
+        tipo: "if + switch combinados"
+      };
+
+      // Renderizar exercícios
+      for (let i = 1; i <= 20; i++) {
+        const bloco = document.createElement("div");
+        bloco.className = "codigo";
+        bloco.id = `bloco${i}`;
+        
+        let html = `<span class="numero-questao">${i}</span> `;
+        if (valores[i].tipo) {
+          html += `<span class="tipo-condicional">${valores[i].tipo}</span>`;
+        }
+        html += `<br>`;
+        html += valores[i].texto;
+        
+        if (valores[i].dica) {
+          html += `<div class="dica">💡 Dica: ${valores[i].dica}</div>`;
+        }
+        
+        html += `<br><input type="text" id="resposta${i}" placeholder="Digite o valor impresso" oninput="limparFeedback(${i})">`;
+        html += `<div class="botoes-questao">`;
+        html += `<button class="verificar-btn" onclick="verificarQuestao(${i})">🔍 Verificar</button>`;
+        html += `<button class="gabarito-btn" onclick="mostrarGabarito(${i})">📖 Gabarito</button>`;
+        html += `<button class="limpar-btn" onclick="limparQuestao(${i})">🧹 Limpar</button>`;
+        html += `</div>`;
+        html += `<div id="feedback${i}" class="feedback"></div>`;
+        
+        bloco.innerHTML = html;
+        container.appendChild(bloco);
+      }
+    }
+
+    function verificarQuestao(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      const resposta = input.value.trim();
+
+      input.classList.remove('correto-input', 'errado-input');
+
+      if (resposta === esperado) {
+        feedback.innerHTML = `<span class='correto'>✅ Correto! 🎉</span>`;
+        feedback.style.backgroundColor = 'rgba(166, 226, 46, 0.15)';
+        input.classList.add('correto-input');
+      } else {
+        feedback.innerHTML = `<span class='errado'>❌ Errado. Resposta esperada: ${esperado}</span>`;
+        feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+        input.classList.add('errado-input');
+      }
+    }
+
+    function mostrarGabarito(i) {
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      
+      feedback.innerHTML = `<span class='gabarito-texto'>📖 Gabarito: ${esperado}</span>`;
+      feedback.style.backgroundColor = 'rgba(102, 217, 239, 0.1)';
+    }
+
+    function limparQuestao(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      input.value = '';
+      input.classList.remove('correto-input', 'errado-input');
+      feedback.innerHTML = '';
+      feedback.style.backgroundColor = 'transparent';
+    }
+
+    function limparFeedback(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      input.classList.remove('correto-input', 'errado-input');
+      if (!feedback.innerHTML.includes('Gabarito')) {
+        feedback.innerHTML = '';
+        feedback.style.backgroundColor = 'transparent';
+      }
+    }
+
+    function verificarTodas() {
+      let acertos = 0;
+      let total = 20;
+
+      for (let i = 1; i <= 20; i++) {
+        verificarQuestao(i);
+        const feedback = document.getElementById(`feedback${i}`);
+        if (feedback.innerHTML.includes('Correto')) {
+          acertos++;
+        }
+      }
+
+      const resumoDiv = document.getElementById("resumoFinal");
+      resumoDiv.style.display = "block";
+      
+      const estatisticas = document.getElementById("estatisticas");
+      const porcentagem = (acertos / total * 100).toFixed(1);
+      
+      let emoji, mensagem;
+      if (porcentagem >= 80) {
+        emoji = '🏆';
+        mensagem = 'Excelente! Você domina estruturas condicionais em Java!';
+      } else if (porcentagem >= 60) {
+        emoji = '📚';
+        mensagem = 'Bom trabalho! Continue praticando com switch e if aninhados.';
+      } else {
+        emoji = '💪';
+        mensagem = 'Pratique mais! Foque em entender o fluxo de execução e fall-through no switch.';
+      }
+      
+      estatisticas.innerHTML = `
+        <p><strong>${emoji} Resultado:</strong> ${acertos} de ${total} acertos (${porcentagem}%)</p>
+        <div class="barra-progresso">
+          <div class="barra-progresso-preenchida" style="width: ${porcentagem}%;">
+            ${porcentagem}%
+          </div>
+        </div>
+        <p style="margin-top: 15px; color: #75715e; font-style: italic;">${mensagem}</p>
+        <p style="margin-top: 10px; color: #66d9ef; font-size: 0.9em;">
+          💡 Clique em "Gabarito de Todas" para ver todas as respostas corretas.
+        </p>
+      `;
+    }
+
+    function mostrarGabaritoTodas() {
+      for (let i = 1; i <= 20; i++) {
+        mostrarGabarito(i);
+      }
+    }
+
+    function limparTudo() {
+      for (let i = 1; i <= 20; i++) {
+        limparQuestao(i);
+      }
+      document.getElementById("resumoFinal").style.display = "none";
+    }
+
+    // Executar ao abrir a página
+    gerarExercicios();
+  </script>
+</body>
+</html>
