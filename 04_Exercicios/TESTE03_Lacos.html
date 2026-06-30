@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>20 Exercícios - Java: Laços de Repetição (For, While, Do-While)</title>
+  <style>
+    body {
+      background-color: #272822;
+      color: #f8f8f2;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    h1, h2 {
+      color: #66d9ef;
+    }
+    .codigo {
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 5px #000;
+      white-space: pre-wrap;
+      border-left: 3px solid #a6e22e;
+      position: relative;
+    }
+    .verde { color: #a6e22e; }
+    .amarelo { color: #e6db74; }
+    .azul { color: #66d9ef; }
+    .rosa { color: #f92672; }
+    .cinza { color: #75715e; }
+    .laranja { color: #fd971f; }
+    .roxo { color: #ae81ff; }
+    
+    input {
+      background-color: #1e1f1c;
+      color: #f8f8f2;
+      border: 1px solid #555;
+      padding: 5px 8px;
+      margin-top: 8px;
+      width: 200px;
+      font-family: 'Courier New', monospace;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #66d9ef;
+      box-shadow: 0 0 5px rgba(102, 217, 239, 0.3);
+    }
+    input.correto-input {
+      border-color: #a6e22e;
+      background-color: rgba(166, 226, 46, 0.1);
+    }
+    input.errado-input {
+      border-color: #f92672;
+      background-color: rgba(249, 38, 114, 0.1);
+    }
+    
+    .botoes-questao {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 16px;
+      background-color: #66d9ef;
+      color: #272822;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+    button.verificar-btn {
+      background-color: #66d9ef;
+    }
+    button.verificar-btn:hover {
+      background-color: #a6e22e;
+    }
+    button.gabarito-btn {
+      background-color: #fd971f;
+    }
+    button.gabarito-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.limpar-btn {
+      background-color: #75715e;
+    }
+    button.limpar-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.geral-btn {
+      background-color: #a6e22e;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+    button.geral-btn:hover {
+      background-color: #66d9ef;
+    }
+    
+    .feedback {
+      margin-top: 5px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+    
+    .correto {
+      color: #a6e22e;
+      font-weight: bold;
+    }
+    .errado {
+      color: #f92672;
+      font-weight: bold;
+    }
+    .gabarito-texto {
+      color: #66d9ef;
+      font-weight: bold;
+    }
+    
+    .dica {
+      color: #75715e;
+      font-size: 0.9em;
+      margin-top: 5px;
+      font-style: italic;
+    }
+    
+    .header-info {
+      background-color: #1e1f1c;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 1px solid #555;
+    }
+    
+    .badge {
+      display: inline-block;
+      background-color: #f92672;
+      color: white;
+      padding: 2px 10px;
+      border-radius: 10px;
+      font-size: 0.8em;
+      margin-left: 5px;
+    }
+    
+    .resumo-final {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      border: 2px solid #a6e22e;
+      display: none;
+    }
+    
+    .barra-progresso {
+      background-color: #272822;
+      height: 25px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #555;
+    }
+    
+    .barra-progresso-preenchida {
+      height: 100%;
+      background: linear-gradient(90deg, #a6e22e, #66d9ef);
+      transition: width 0.8s ease;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #272822;
+      font-size: 12px;
+    }
+    
+    .numero-questao {
+      display: inline-block;
+      background-color: #a6e22e;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 0.9em;
+    }
+    
+    .botoes-gerais {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    
+    .tipo-laco {
+      display: inline-block;
+      background-color: #ae81ff;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    
+    .variavel-destaque {
+      color: #fd971f;
+      font-weight: bold;
+    }
+    
+    @media (max-width: 600px) {
+      input {
+        width: 100%;
+      }
+      .botoes-questao {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔄 20 Exercícios de Java - Laços de Repetição</h1>
+  <div class="header-info">
+    <p><strong>Tópicos:</strong> <span class="azul">for</span>, <span class="azul">while</span>, <span class="azul">do-while</span>, <span class="azul">loops aninhados</span>, <span class="azul">variação de variáveis</span></p>
+    <p><span class="cinza">💡 Digite APENAS o valor que será impresso no console, sem aspas ou ponto-e-vírgula.</span></p>
+    <p><span class="laranja">📌 Atenção: Alguns loops têm elementos faltando (inicialização ou condição) - analise com cuidado!</span></p>
+  </div>
+  
+  <div id="exercicios"></div>
+  
+  <div class="botoes-gerais">
+    <button class="geral-btn" onclick="verificarTodas()">✅ Verificar Todas</button>
+    <button class="geral-btn" style="background-color: #fd971f;" onclick="mostrarGabaritoTodas()">📖 Gabarito de Todas</button>
+    <button class="geral-btn" style="background-color: #75715e;" onclick="limparTudo()">🧹 Limpar Tudo</button>
+    <button class="geral-btn" style="background-color: #f92672; color: white;" onclick="gerarExercicios()">🔄 Nova Série</button>
+  </div>
+  
+  <div id="resumoFinal" class="resumo-final">
+    <h3>📊 Resultado Final</h3>
+    <div id="estatisticas"></div>
+  </div>
+
+  <script>
+    const valores = {};
+
+    function gerarNumero(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function gerarExercicios() {
+      const container = document.getElementById("exercicios");
+      container.innerHTML = "";
+      document.getElementById("resumoFinal").style.display = "none";
+
+      // ===== Exercício 1: while básico =====
+      let a1 = gerarNumero(1, 5);
+      let b1 = gerarNumero(8, 12);
+      let a1copy = a1, b1copy = b1;
+      while (a1copy < 10) {
+        a1copy++;
+        b1copy += 2;
+      }
+      let resultado1 = a1copy + b1copy;
+      let codigo1 = `int A = ${a1}, B = ${b1};\nwhile (A < 10) {\n  A++;\n  B += 2;\n}\nSystem.out.println(A + B);`;
+      valores[1] = {
+        texto: codigo1.replace(/\n/g, '<br>'),
+        resultado: resultado1.toString(),
+        dica: "While executa até A >= 10, incrementando A e B",
+        tipo: "while"
+      };
+
+      // ===== Exercício 2: do-while básico =====
+      let a2 = gerarNumero(3, 6);
+      let b2 = gerarNumero(10, 15);
+      let a2copy = a2, b2copy = b2;
+      do {
+        a2copy += 2;
+        b2copy--;
+      } while (a2copy < 15);
+      let resultado2 = a2copy - b2copy;
+      let codigo2 = `int A = ${a2}, B = ${b2};\ndo {\n  A += 2;\n  B--;\n} while (A < 15);\nSystem.out.println(A - B);`;
+      valores[2] = {
+        texto: codigo2.replace(/\n/g, '<br>'),
+        resultado: resultado2.toString(),
+        dica: "do-while executa pelo menos uma vez, até A >= 15",
+        tipo: "do-while"
+      };
+
+      // ===== Exercício 3: for com inicialização faltando =====
+      let a3 = gerarNumero(1, 4);
+      let b3 = gerarNumero(6, 9);
+      let a3copy = a3, b3copy = b3;
+      let i3 = a3copy;
+      for (; i3 < 10; i3 += 2) {
+        b3copy += 3;
+      }
+      let resultado3 = i3 + b3copy;
+      let codigo3 = `int A = ${a3}, B = ${b3};\nint i;\nfor (i = A; i < 10; i += 2) {\n  B += 3;\n}\nSystem.out.println(i + B);`;
+      valores[3] = {
+        texto: codigo3.replace(/\n/g, '<br>'),
+        resultado: resultado3.toString(),
+        dica: "For com inicialização na linha anterior - atenção ao valor final de i",
+        tipo: "for sem inicialização"
+      };
+
+      // ===== Exercício 4: for com condição faltando (loop infinito controlado) =====
+      let a4 = gerarNumero(5, 8);
+      let b4 = gerarNumero(2, 5);
+      let a4copy = a4, b4copy = b4;
+      let i4 = 0;
+      for (; ; ) {
+        a4copy += 2;
+        b4copy += 3;
+        i4++;
+        if (a4copy > 20) break;
+      }
+      let resultado4 = a4copy + b4copy - i4;
+      let codigo4 = `int A = ${a4}, B = ${b4};\nint i = 0;\nfor (;;) {\n  A += 2;\n  B += 3;\n  i++;\n  if (A > 20) break;\n}\nSystem.out.println(A + B - i);`;
+      valores[4] = {
+        texto: codigo4.replace(/\n/g, '<br>'),
+        resultado: resultado4.toString(),
+        dica: "For sem condições - usa break para sair quando A > 20",
+        tipo: "for com break"
+      };
+
+      // ===== Exercício 5: while com decremento =====
+      let a5 = gerarNumero(15, 25);
+      let b5 = gerarNumero(3, 7);
+      let a5copy = a5, b5copy = b5;
+      while (b5copy > 0) {
+        a5copy -= 3;
+        b5copy -= 2;
+      }
+      let resultado5 = a5copy * b5copy;
+      let codigo5 = `int A = ${a5}, B = ${b5};\nwhile (B > 0) {\n  A -= 3;\n  B -= 2;\n}\nSystem.out.println(A * B);`;
+      valores[5] = {
+        texto: codigo5.replace(/\n/g, '<br>'),
+        resultado: resultado5.toString(),
+        dica: "While executa enquanto B > 0, decrementando A e B",
+        tipo: "while com decremento"
+      };
+
+      // ===== Exercício 6: do-while com condição complexa =====
+      let a6 = gerarNumero(1, 4);
+      let b6 = gerarNumero(8, 12);
+      let a6copy = a6, b6copy = b6;
+      do {
+        a6copy *= 2;
+        b6copy -= 3;
+      } while (a6copy < b6copy);
+      let resultado6 = a6copy + b6copy;
+      let codigo6 = `int A = ${a6}, B = ${b6};\ndo {\n  A *= 2;\n  B -= 3;\n} while (A < B);\nSystem.out.println(A + B);`;
+      valores[6] = {
+        texto: codigo6.replace(/\n/g, '<br>'),
+        resultado: resultado6.toString(),
+        dica: "do-while executa até A >= B, com A dobrando a cada iteração",
+        tipo: "do-while com multiplicação"
+      };
+
+      // ===== Exercício 7: for com passo variável =====
+      let a7 = gerarNumero(0, 2);
+      let b7 = gerarNumero(15, 20);
+      let a7copy = a7, b7copy = b7;
+      for (let i7 = a7copy; i7 < 10; i7 += (i7 % 2 === 0 ? 2 : 3)) {
+        b7copy += i7;
+      }
+      let resultado7 = b7copy;
+      let codigo7 = `int A = ${a7}, B = ${b7};\nfor (int i = A; i < 10; i += (i % 2 == 0 ? 2 : 3)) {\n  B += i;\n}\nSystem.out.println(B);`;
+      valores[7] = {
+        texto: codigo7.replace(/\n/g, '<br>'),
+        resultado: resultado7.toString(),
+        dica: "For com passo condicional - se i é par soma 2, senão soma 3",
+        tipo: "for com passo condicional"
+      };
+
+      // ===== Exercício 8: while aninhado =====
+      let a8 = gerarNumero(2, 4);
+      let b8 = gerarNumero(3, 5);
+      let a8copy = a8, b8copy = b8;
+      let x8 = 0;
+      while (a8copy > 0) {
+        let y8 = b8copy;
+        while (y8 > 0) {
+          x8 += a8copy * y8;
+          y8--;
+        }
+        a8copy--;
+        b8copy++;
+      }
+      let resultado8 = x8;
+      let codigo8 = `int A = ${a8}, B = ${b8};\nint X = 0;\nwhile (A > 0) {\n  int Y = B;\n  while (Y > 0) {\n    X += A * Y;\n    Y--;\n  }\n  A--;\n  B++;\n}\nSystem.out.println(X);`;
+      valores[8] = {
+        texto: codigo8.replace(/\n/g, '<br>'),
+        resultado: resultado8.toString(),
+        dica: "While aninhado - multiplica A * Y e acumula em X",
+        tipo: "while aninhado"
+      };
+
+      // ===== Exercício 9: for com múltiplas variáveis =====
+      let a9 = gerarNumero(1, 3);
+      let b9 = gerarNumero(1, 3);
+      let a9copy = a9, b9copy = b9;
+      let c9 = 0;
+      for (let i9 = a9copy, j9 = b9copy; i9 < 10; i9 += 2, j9 += 3) {
+        c9 += i9 * j9;
+      }
+      let resultado9 = c9;
+      let codigo9 = `int A = ${a9}, B = ${b9};\nint C = 0;\nfor (int i = A, j = B; i < 10; i += 2, j += 3) {\n  C += i * j;\n}\nSystem.out.println(C);`;
+      valores[9] = {
+        texto: codigo9.replace(/\n/g, '<br>'),
+        resultado: resultado9.toString(),
+        dica: "For com duas variáveis de controle (i e j) e passo diferente",
+        tipo: "for com múltiplas variáveis"
+      };
+
+      // ===== Exercício 10: do-while com decremento de duas variáveis =====
+      let a10 = gerarNumero(20, 30);
+      let b10 = gerarNumero(5, 8);
+      let a10copy = a10, b10copy = b10;
+      do {
+        a10copy -= b10copy;
+        b10copy--;
+      } while (a10copy > 0 && b10copy > 0);
+      let resultado10 = a10copy + b10copy;
+      let codigo10 = `int A = ${a10}, B = ${b10};\ndo {\n  A -= B;\n  B--;\n} while (A > 0 && B > 0);\nSystem.out.println(A + B);`;
+      valores[10] = {
+        texto: codigo10.replace(/\n/g, '<br>'),
+        resultado: resultado10.toString(),
+        dica: "do-while com duas condições - executa enquanto A > 0 E B > 0",
+        tipo: "do-while com duas condições"
+      };
+
+      // ===== Exercício 11: for com inicialização e incremento omitidos =====
+      let a11 = gerarNumero(1, 3);
+      let b11 = gerarNumero(10, 15);
+      let a11copy = a11, b11copy = b11;
+      let i11 = a11copy;
+      for (; i11 < 15; ) {
+        b11copy += i11;
+        i11 += 2;
+      }
+      let resultado11 = i11 + b11copy;
+      let codigo11 = `int A = ${a11}, B = ${b11};\nint i = A;\nfor (; i < 15;) {\n  B += i;\n  i += 2;\n}\nSystem.out.println(i + B);`;
+      valores[11] = {
+        texto: codigo11.replace(/\n/g, '<br>'),
+        resultado: resultado11.toString(),
+        dica: "For com inicialização e incremento fora dos parênteses",
+        tipo: "for com elementos omitidos"
+      };
+
+      // ===== Exercício 12: while com break =====
+      let a12 = gerarNumero(3, 7);
+      let b12 = gerarNumero(5, 9);
+      let a12copy = a12, b12copy = b12;
+      while (true) {
+        a12copy += 2;
+        b12copy += 3;
+        if (a12copy > 20 || b12copy > 30) break;
+      }
+      let resultado12 = a12copy - b12copy;
+      let codigo12 = `int A = ${a12}, B = ${b12};\nwhile (true) {\n  A += 2;\n  B += 3;\n  if (A > 20 || B > 30) break;\n}\nSystem.out.println(A - B);`;
+      valores[12] = {
+        texto: codigo12.replace(/\n/g, '<br>'),
+        resultado: resultado12.toString(),
+        dica: "while com break condicional - para quando A > 20 OU B > 30",
+        tipo: "while com break"
+      };
+
+      // ===== Exercício 13: for com condição de parada =====
+      let a13 = gerarNumero(1, 3);
+      let b13 = gerarNumero(1, 3);
+      let a13copy = a13, b13copy = b13;
+      for (let i13 = 0; i13 < 5; i13++) {
+        a13copy += i13;
+        b13copy *= 2;
+      }
+      let resultado13 = a13copy - b13copy;
+      let codigo13 = `int A = ${a13}, B = ${b13};\nfor (int i = 0; i < 5; i++) {\n  A += i;\n  B *= 2;\n}\nSystem.out.println(A - B);`;
+      valores[13] = {
+        texto: codigo13.replace(/\n/g, '<br>'),
+        resultado: resultado13.toString(),
+        dica: "For com 5 iterações - B dobra a cada iteração",
+        tipo: "for com multiplicação"
+      };
+
+      // ===== Exercício 14: do-while com incremento variável =====
+      let a14 = gerarNumero(2, 5);
+      let b14 = gerarNumero(10, 15);
+      let a14copy = a14, b14copy = b14;
+      let passo14 = 1;
+      do {
+        a14copy += passo14;
+        b14copy -= 2;
+        passo14++;
+      } while (a14copy < b14copy);
+      let resultado14 = a14copy + b14copy - passo14;
+      let codigo14 = `int A = ${a14}, B = ${b14};\nint passo = 1;\ndo {\n  A += passo;\n  B -= 2;\n  passo++;\n} while (A < B);\nSystem.out.println(A + B - passo);`;
+      valores[14] = {
+        texto: codigo14.replace(/\n/g, '<br>'),
+        resultado: resultado14.toString(),
+        dica: "do-while com passo variável que aumenta a cada iteração",
+        tipo: "do-while com passo variável"
+      };
+
+      // ===== Exercício 15: while com cálculo acumulado =====
+      let a15 = gerarNumero(5, 9);
+      let a15copy = a15;
+      let soma15 = 0;
+      while (a15copy > 0) {
+        soma15 += a15copy;
+        a15copy -= 2;
+      }
+      let resultado15 = soma15;
+      let codigo15 = `int A = ${a15};\nint soma = 0;\nwhile (A > 0) {\n  soma += A;\n  A -= 2;\n}\nSystem.out.println(soma);`;
+      valores[15] = {
+        texto: codigo15.replace(/\n/g, '<br>'),
+        resultado: resultado15.toString(),
+        dica: "While acumula a soma de A, decrementando de 2 em 2",
+        tipo: "while com acumulador"
+      };
+
+      // ===== Exercício 16: for com decremento =====
+      let a16 = gerarNumero(10, 15);
+      let b16 = gerarNumero(1, 3);
+      let a16copy = a16, b16copy = b16;
+      for (let i16 = a16copy; i16 > 0; i16 -= 2) {
+        b16copy += i16;
+      }
+      let resultado16 = b16copy;
+      let codigo16 = `int A = ${a16}, B = ${b16};\nfor (int i = A; i > 0; i -= 2) {\n  B += i;\n}\nSystem.out.println(B);`;
+      valores[16] = {
+        texto: codigo16.replace(/\n/g, '<br>'),
+        resultado: resultado16.toString(),
+        dica: "For com decremento de 2, acumulando em B",
+        tipo: "for com decremento"
+      };
+
+      // ===== Exercício 17: while com operador ternário =====
+      let a17 = gerarNumero(1, 4);
+      let b17 = gerarNumero(1, 4);
+      let a17copy = a17, b17copy = b17;
+      while (a17copy < 15) {
+        a17copy += (a17copy % 2 === 0) ? 3 : 2;
+        b17copy *= 2;
+      }
+      let resultado17 = a17copy + b17copy;
+      let codigo17 = `int A = ${a17}, B = ${b17};\nwhile (A < 15) {\n  A += (A % 2 == 0) ? 3 : 2;\n  B *= 2;\n}\nSystem.out.println(A + B);`;
+      valores[17] = {
+        texto: codigo17.replace(/\n/g, '<br>'),
+        resultado: resultado17.toString(),
+        dica: "While com operador ternário para decidir o incremento de A",
+        tipo: "while com ternário"
+      };
+
+      // ===== Exercício 18: do-while com break =====
+      let a18 = gerarNumero(2, 5);
+      let b18 = gerarNumero(2, 5);
+      let a18copy = a18, b18copy = b18;
+      let cont18 = 0;
+      do {
+        a18copy += 3;
+        b18copy += 4;
+        cont18++;
+        if (cont18 > 10) break;
+      } while (a18copy < 30);
+      let resultado18 = a18copy - b18copy + cont18;
+      let codigo18 = `int A = ${a18}, B = ${b18};\nint cont = 0;\ndo {\n  A += 3;\n  B += 4;\n  cont++;\n  if (cont > 10) break;\n} while (A < 30);\nSystem.out.println(A - B + cont);`;
+      valores[18] = {
+        texto: codigo18.replace(/\n/g, '<br>'),
+        resultado: resultado18.toString(),
+        dica: "do-while com break e contador - máximo de 10 iterações",
+        tipo: "do-while com break"
+      };
+
+      // ===== Exercício 19: for com múltiplos break =====
+      let a19 = gerarNumero(3, 7);
+      let b19 = gerarNumero(20, 30);
+      let a19copy = a19, b19copy = b19;
+      for (let i19 = 0; i19 < 20; i19++) {
+        a19copy += i19;
+        b19copy -= 3;
+        if (a19copy > 50 || b19copy < 5) break;
+      }
+      let resultado19 = a19copy * b19copy;
+      let codigo19 = `int A = ${a19}, B = ${b19};\nfor (int i = 0; i < 20; i++) {\n  A += i;\n  B -= 3;\n  if (A > 50 || B < 5) break;\n}\nSystem.out.println(A * B);`;
+      valores[19] = {
+        texto: codigo19.replace(/\n/g, '<br>'),
+        resultado: resultado19.toString(),
+        dica: "For com break em duas condições - A > 50 OU B < 5",
+        tipo: "for com break duplo"
+      };
+
+      // ===== Exercício 20: Loop combinado (for + while) =====
+      let a20 = gerarNumero(2, 5);
+      let b20 = gerarNumero(2, 5);
+      let a20copy = a20, b20copy = b20;
+      for (let i20 = 0; i20 < 4; i20++) {
+        let temp20 = 0;
+        while (temp20 < 3) {
+          a20copy += i20;
+          b20copy += temp20;
+          temp20++;
+        }
+      }
+      let resultado20 = a20copy - b20copy;
+      let codigo20 = `int A = ${a20}, B = ${b20};\nfor (int i = 0; i < 4; i++) {\n  int temp = 0;\n  while (temp < 3) {\n    A += i;\n    B += temp;\n    temp++;\n  }\n}\nSystem.out.println(A - B);`;
+      valores[20] = {
+        texto: codigo20.replace(/\n/g, '<br>'),
+        resultado: resultado20.toString(),
+        dica: "For aninhado com while - combinação de dois loops",
+        tipo: "for + while aninhados"
+      };
+
+      // Renderizar exercícios
+      for (let i = 1; i <= 20; i++) {
+        const bloco = document.createElement("div");
+        bloco.className = "codigo";
+        bloco.id = `bloco${i}`;
+        
+        let html = `<span class="numero-questao">${i}</span> `;
+        if (valores[i].tipo) {
+          html += `<span class="tipo-laco">${valores[i].tipo}</span>`;
+        }
+        html += `<br>`;
+        html += valores[i].texto;
+        
+        if (valores[i].dica) {
+          html += `<div class="dica">💡 Dica: ${valores[i].dica}</div>`;
+        }
+        
+        html += `<br><input type="text" id="resposta${i}" placeholder="Digite o valor impresso" oninput="limparFeedback(${i})">`;
+        html += `<div class="botoes-questao">`;
+        html += `<button class="verificar-btn" onclick="verificarQuestao(${i})">🔍 Verificar</button>`;
+        html += `<button class="gabarito-btn" onclick="mostrarGabarito(${i})">📖 Gabarito</button>`;
+        html += `<button class="limpar-btn" onclick="limparQuestao(${i})">🧹 Limpar</button>`;
+        html += `</div>`;
+        html += `<div id="feedback${i}" class="feedback"></div>`;
+        
+        bloco.innerHTML = html;
+        container.appendChild(bloco);
+      }
+    }
+
+    function verificarQuestao(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      const resposta = input.value.trim();
+
+      input.classList.remove('correto-input', 'errado-input');
+
+      if (resposta === esperado) {
+        feedback.innerHTML = `<span class='correto'>✅ Correto! 🎉</span>`;
+        feedback.style.backgroundColor = 'rgba(166, 226, 46, 0.15)';
+        input.classList.add('correto-input');
+      } else {
+        feedback.innerHTML = `<span class='errado'>❌ Errado. Resposta esperada: ${esperado}</span>`;
+        feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+        input.classList.add('errado-input');
+      }
+    }
+
+    function mostrarGabarito(i) {
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      
+      feedback.innerHTML = `<span class='gabarito-texto'>📖 Gabarito: ${esperado}</span>`;
+      feedback.style.backgroundColor = 'rgba(102, 217, 239, 0.1)';
+    }
+
+    function limparQuestao(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      input.value = '';
+      input.classList.remove('correto-input', 'errado-input');
+      feedback.innerHTML = '';
+      feedback.style.backgroundColor = 'transparent';
+    }
+
+    function limparFeedback(i) {
+      const input = document.getElementById(`resposta${i}`);
+      const feedback = document.getElementById(`feedback${i}`);
+      input.classList.remove('correto-input', 'errado-input');
+      if (!feedback.innerHTML.includes('Gabarito')) {
+        feedback.innerHTML = '';
+        feedback.style.backgroundColor = 'transparent';
+      }
+    }
+
+    function verificarTodas() {
+      let acertos = 0;
+      let total = 20;
+
+      for (let i = 1; i <= 20; i++) {
+        verificarQuestao(i);
+        const feedback = document.getElementById(`feedback${i}`);
+        if (feedback.innerHTML.includes('Correto')) {
+          acertos++;
+        }
+      }
+
+      const resumoDiv = document.getElementById("resumoFinal");
+      resumoDiv.style.display = "block";
+      
+      const estatisticas = document.getElementById("estatisticas");
+      const porcentagem = (acertos / total * 100).toFixed(1);
+      
+      let emoji, mensagem;
+      if (porcentagem >= 80) {
+        emoji = '🏆';
+        mensagem = 'Excelente! Você domina laços de repetição em Java!';
+      } else if (porcentagem >= 60) {
+        emoji = '📚';
+        mensagem = 'Bom trabalho! Continue praticando com diferentes tipos de loops.';
+      } else {
+        emoji = '💪';
+        mensagem = 'Pratique mais! Foque em entender como as variáveis mudam em cada iteração.';
+      }
+      
+      estatisticas.innerHTML = `
+        <p><strong>${emoji} Resultado:</strong> ${acertos} de ${total} acertos (${porcentagem}%)</p>
+        <div class="barra-progresso">
+          <div class="barra-progresso-preenchida" style="width: ${porcentagem}%;">
+            ${porcentagem}%
+          </div>
+        </div>
+        <p style="margin-top: 15px; color: #75715e; font-style: italic;">${mensagem}</p>
+        <p style="margin-top: 10px; color: #66d9ef; font-size: 0.9em;">
+          💡 Clique em "Gabarito de Todas" para ver todas as respostas corretas.
+        </p>
+      `;
+    }
+
+    function mostrarGabaritoTodas() {
+      for (let i = 1; i <= 20; i++) {
+        mostrarGabarito(i);
+      }
+    }
+
+    function limparTudo() {
+      for (let i = 1; i <= 20; i++) {
+        limparQuestao(i);
+      }
+      document.getElementById("resumoFinal").style.display = "none";
+    }
+
+    // Executar ao abrir a página
+    gerarExercicios();
+  </script>
+</body>
+</html>
