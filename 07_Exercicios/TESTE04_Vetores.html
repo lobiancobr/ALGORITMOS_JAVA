@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>20 Exercícios - Java: Vetores (Arrays)</title>
+  <style>
+    body {
+      background-color: #272822;
+      color: #f8f8f2;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      color: #66d9ef;
+    }
+    .codigo {
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 5px #000;
+      white-space: pre-wrap;
+      border-left: 3px solid #ae81ff;
+      position: relative;
+    }
+    .verde { color: #a6e22e; }
+    .amarelo { color: #e6db74; }
+    .azul { color: #66d9ef; }
+    .rosa { color: #f92672; }
+    .cinza { color: #75715e; }
+    .laranja { color: #fd971f; }
+    .roxo { color: #ae81ff; }
+    .texto-explicativo {
+      background-color: #1e1f1c;
+      padding: 15px 20px;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      border-left: 4px solid #66d9ef;
+      line-height: 1.6;
+    }
+    .texto-explicativo p {
+      margin: 10px 0;
+    }
+    .texto-explicativo strong {
+      color: #a6e22e;
+    }
+    
+    input {
+      background-color: #1e1f1c;
+      color: #f8f8f2;
+      border: 1px solid #555;
+      padding: 5px 8px;
+      margin-top: 8px;
+      width: 180px;
+      font-family: 'Courier New', monospace;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #66d9ef;
+      box-shadow: 0 0 5px rgba(102, 217, 239, 0.3);
+    }
+    input.correto-input {
+      border-color: #a6e22e;
+      background-color: rgba(166, 226, 46, 0.1);
+    }
+    input.errado-input {
+      border-color: #f92672;
+      background-color: rgba(249, 38, 114, 0.1);
+    }
+    input.input-vetor {
+      width: 60px;
+      text-align: center;
+      margin: 2px;
+    }
+    
+    .botoes-questao {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 16px;
+      background-color: #66d9ef;
+      color: #272822;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+    button.verificar-btn {
+      background-color: #66d9ef;
+    }
+    button.verificar-btn:hover {
+      background-color: #a6e22e;
+    }
+    button.gabarito-btn {
+      background-color: #fd971f;
+    }
+    button.gabarito-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.limpar-btn {
+      background-color: #75715e;
+    }
+    button.limpar-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.geral-btn {
+      background-color: #a6e22e;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+    button.geral-btn:hover {
+      background-color: #66d9ef;
+    }
+    
+    .feedback {
+      margin-top: 5px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+    
+    .correto {
+      color: #a6e22e;
+      font-weight: bold;
+    }
+    .errado {
+      color: #f92672;
+      font-weight: bold;
+    }
+    .gabarito-texto {
+      color: #66d9ef;
+      font-weight: bold;
+    }
+    
+    .dica {
+      color: #75715e;
+      font-size: 0.9em;
+      margin-top: 5px;
+      font-style: italic;
+    }
+    
+    .header-info {
+      background-color: #1e1f1c;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 1px solid #555;
+    }
+    
+    .resumo-final {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      border: 2px solid #ae81ff;
+      display: none;
+    }
+    
+    .barra-progresso {
+      background-color: #272822;
+      height: 25px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #555;
+    }
+    
+    .barra-progresso-preenchida {
+      height: 100%;
+      background: linear-gradient(90deg, #ae81ff, #66d9ef);
+      transition: width 0.8s ease;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #272822;
+      font-size: 12px;
+    }
+    
+    .numero-questao {
+      display: inline-block;
+      background-color: #ae81ff;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 0.9em;
+    }
+    
+    .botoes-gerais {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    
+    .tipo-vetor {
+      display: inline-block;
+      background-color: #fd971f;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    
+    .vetor-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 8px 0;
+    }
+    
+    .vetor-inputs label {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background-color: #1e1f1c;
+      padding: 2px 8px;
+      border-radius: 3px;
+      border: 1px solid #444;
+    }
+    
+    @media (max-width: 600px) {
+      input {
+        width: 100%;
+      }
+      .botoes-questao {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+      .vetor-inputs label {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>📊 20 Exercícios de Java - Vetores (Arrays)</h1>
+  
+    <p><span class="cinza">💡 Nos exercícios a seguir, você praticará diversas operações com vetores, desde criação até manipulações mais avançadas!</span></p>
+  
+  <div class="header-info">
+    <p><strong>Tópicos:</strong> <span class="azul">Criação</span>, <span class="azul">Percurso</span>, <span class="azul">Soma</span>, <span class="azul">Busca</span>, <span class="azul">Troca</span>, <span class="azul">Inversão</span>, <span class="azul">Multiplicação</span>, <span class="azul">Intersecção</span></p>
+    <p><span class="cinza">💡 Digite os valores calculados para cada vetor ou a resposta solicitada.</span></p>
+    <p><span class="laranja">📌 Atenção: Alguns exercícios pedem o vetor completo, outros apenas um valor específico!</span></p>
+  </div>
+  
+  <div id="exercicios"></div>
+  
+  <div class="botoes-gerais">
+    <button class="geral-btn" onclick="verificarTodas()">✅ Verificar Todas</button>
+    <button class="geral-btn" style="background-color: #fd971f;" onclick="mostrarGabaritoTodas()">📖 Gabarito de Todas</button>
+    <button class="geral-btn" style="background-color: #75715e;" onclick="limparTudo()">🧹 Limpar Tudo</button>
+    <button class="geral-btn" style="background-color: #f92672; color: white;" onclick="gerarExercicios()">🔄 Nova Série</button>
+  </div>
+  
+  <div id="resumoFinal" class="resumo-final">
+    <h3>📊 Resultado Final</h3>
+    <div id="estatisticas"></div>
+  </div>
+
+  <script>
+    const valores = {};
+
+    function gerarNumero(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function gerarVetor(tamanho, min, max) {
+      return Array.from({ length: tamanho }, () => gerarNumero(min, max));
+    }
+
+    function formatarVetor(vetor) {
+      return `{${vetor.join(', ')}}`;
+    }
+
+    function gerarExercicios() {
+      const container = document.getElementById("exercicios");
+      container.innerHTML = "";
+      document.getElementById("resumoFinal").style.display = "none";
+
+      // ===== Exercício 1: Criação com fórmula =====
+      let a1 = gerarNumero(-5, 5);
+      let b1 = gerarNumero(-5, 5);
+      let c1 = gerarNumero(-5, 5);
+      let vetor1 = [];
+      for (let i = 0; i < 5; i++) {
+        vetor1.push(a1 * i * i + b1 * i + c1);
+      }
+      let codigo1 = `int V[] = new int[5];\nfor (int i = 0; i < 5; i++) {\n  V[i] = ${a1}*i*i + (${b1})*i + (${c1});\n}`;
+      valores[1] = {
+        texto: codigo1.replace(/\n/g, '<br>'),
+        resultado: vetor1,
+        dica: "Calcule cada posição usando a fórmula com i = 0,1,2,3,4",
+        tipo: "Criação com Fórmula",
+        tamanho: 5,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 2: Criação com fórmula inversa =====
+      let a2 = gerarNumero(-3, 3);
+      let b2 = gerarNumero(-3, 3);
+      let c2 = gerarNumero(-3, 3);
+      let vetor2 = [];
+      for (let i = 4; i >= 0; i--) {
+        vetor2.push(a2 * i * i + b2 * i + c2);
+      }
+      let codigo2 = `int V[] = new int[5];\nfor (int i = 4; i >= 0; i--) {\n  V[4-i] = ${a2}*i*i + (${b2})*i + (${c2});\n}`;
+      valores[2] = {
+        texto: codigo2.replace(/\n/g, '<br>'),
+        resultado: vetor2,
+        dica: "i começa em 4 e vai até 0, preenchendo V[0] a V[4]",
+        tipo: "Criação Inversa",
+        tamanho: 5,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 3: Soma de todos os elementos =====
+      let vetor3 = gerarVetor(6, 1, 15);
+      let soma3 = vetor3.reduce((acc, val) => acc + val, 0);
+      let codigo3 = `int V[] = {${vetor3.join(', ')}};\nint soma = 0;\nfor (int i = 0; i < V.length; i++) {\n  soma += V[i];\n}\nSystem.out.println(soma);`;
+      valores[3] = {
+        texto: codigo3.replace(/\n/g, '<br>'),
+        resultado: [soma3],
+        dica: "Some todos os elementos do vetor",
+        tipo: "Soma Total",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 4: Soma dos elementos pares =====
+      let vetor4 = gerarVetor(6, 1, 20);
+      let soma4 = vetor4.filter(v => v % 2 === 0).reduce((acc, val) => acc + val, 0);
+      let codigo4 = `int V[] = {${vetor4.join(', ')}};\nint soma = 0;\nfor (int i = 0; i < V.length; i++) {\n  if (V[i] % 2 == 0) soma += V[i];\n}\nSystem.out.println(soma);`;
+      valores[4] = {
+        texto: codigo4.replace(/\n/g, '<br>'),
+        resultado: [soma4],
+        dica: "Some apenas os elementos pares do vetor",
+        tipo: "Soma de Pares",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 5: Produto dos elementos =====
+      let vetor5 = gerarVetor(4, 1, 5);
+      let produto5 = vetor5.reduce((acc, val) => acc * val, 1);
+      let codigo5 = `int V[] = {${vetor5.join(', ')}};\nint produto = 1;\nfor (int i = 0; i < V.length; i++) {\n  produto *= V[i];\n}\nSystem.out.println(produto);`;
+      valores[5] = {
+        texto: codigo5.replace(/\n/g, '<br>'),
+        resultado: [produto5],
+        dica: "Multiplique todos os elementos do vetor",
+        tipo: "Produto Total",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 6: Troca de posições =====
+      let vetor6 = gerarVetor(5, 10, 99);
+      let vetor6Modificado = [...vetor6];
+      [vetor6Modificado[0], vetor6Modificado[4]] = [vetor6Modificado[4], vetor6Modificado[0]];
+      [vetor6Modificado[1], vetor6Modificado[3]] = [vetor6Modificado[3], vetor6Modificado[1]];
+      let codigo6 = `int V[] = {${vetor6.join(', ')}};\n// Trocar V[0] com V[4] e V[1] com V[3]`;
+      valores[6] = {
+        texto: codigo6.replace(/\n/g, '<br>'),
+        resultado: vetor6Modificado,
+        dica: "Troque as posições: 0↔4 e 1↔3",
+        tipo: "Troca de Posições",
+        tamanho: 5,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 7: Inversão do vetor =====
+      let vetor7 = gerarVetor(5, 1, 10);
+      let vetor7Invertido = [...vetor7].reverse();
+      let codigo7 = `int V[] = {${vetor7.join(', ')}};\nint V2[] = new int[5];\nfor (int i = 0; i < 5; i++) {\n  V2[i] = V[4-i];\n}`;
+      valores[7] = {
+        texto: codigo7.replace(/\n/g, '<br>'),
+        resultado: vetor7Invertido,
+        dica: "Inverta a ordem dos elementos (V2[0] = V[4], V2[1] = V[3], ...)",
+        tipo: "Inversão",
+        tamanho: 5,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 8: Busca do maior elemento =====
+      let vetor8 = gerarVetor(6, 1, 100);
+      let maior8 = Math.max(...vetor8);
+      let codigo8 = `int V[] = {${vetor8.join(', ')}};\nint maior = V[0];\nfor (int i = 1; i < V.length; i++) {\n  if (V[i] > maior) maior = V[i];\n}\nSystem.out.println(maior);`;
+      valores[8] = {
+        texto: codigo8.replace(/\n/g, '<br>'),
+        resultado: [maior8],
+        dica: "Encontre o maior elemento do vetor",
+        tipo: "Busca do Maior",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 9: Busca do menor elemento =====
+      let vetor9 = gerarVetor(6, 1, 100);
+      let menor9 = Math.min(...vetor9);
+      let codigo9 = `int V[] = {${vetor9.join(', ')}};\nint menor = V[0];\nfor (int i = 1; i < V.length; i++) {\n  if (V[i] < menor) menor = V[i];\n}\nSystem.out.println(menor);`;
+      valores[9] = {
+        texto: codigo9.replace(/\n/g, '<br>'),
+        resultado: [menor9],
+        dica: "Encontre o menor elemento do vetor",
+        tipo: "Busca do Menor",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 10: Média dos elementos =====
+      let vetor10 = gerarVetor(5, 1, 10);
+      let soma10 = vetor10.reduce((acc, val) => acc + val, 0);
+      let media10 = Math.round((soma10 / vetor10.length) * 100) / 100;
+      let codigo10 = `int V[] = {${vetor10.join(', ')}};\nint soma = 0;\nfor (int i = 0; i < V.length; i++) {\n  soma += V[i];\n}\ndouble media = (double)soma / V.length;\nSystem.out.println(media);`;
+      valores[10] = {
+        texto: codigo10.replace(/\n/g, '<br>'),
+        resultado: [media10],
+        dica: "Calcule a média aritmética dos elementos (use 2 casas decimais)",
+        tipo: "Média",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 11: Contagem de elementos > 5 =====
+      let vetor11 = gerarVetor(6, 1, 10);
+      let contagem11 = vetor11.filter(v => v > 5).length;
+      let codigo11 = `int V[] = {${vetor11.join(', ')}};\nint cont = 0;\nfor (int i = 0; i < V.length; i++) {\n  if (V[i] > 5) cont++;\n}\nSystem.out.println(cont);`;
+      valores[11] = {
+        texto: codigo11.replace(/\n/g, '<br>'),
+        resultado: [contagem11],
+        dica: "Conte quantos elementos são maiores que 5",
+        tipo: "Contagem",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 12: Vetor com elementos dobrados =====
+      let vetor12 = gerarVetor(5, 1, 8);
+      let vetor12Dobrado = vetor12.map(v => v * 2);
+      let codigo12 = `int V[] = {${vetor12.join(', ')}};\nint V2[] = new int[5];\nfor (int i = 0; i < 5; i++) {\n  V2[i] = V[i] * 2;\n}`;
+      valores[12] = {
+        texto: codigo12.replace(/\n/g, '<br>'),
+        resultado: vetor12Dobrado,
+        dica: "Crie um novo vetor com o dobro de cada elemento",
+        tipo: "Dobrar Elementos",
+        tamanho: 5,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 13: Soma de dois vetores =====
+      let vetor13a = gerarVetor(4, 1, 10);
+      let vetor13b = gerarVetor(4, 1, 10);
+      let vetor13Soma = vetor13a.map((v, i) => v + vetor13b[i]);
+      let codigo13 = `int A[] = {${vetor13a.join(', ')}};\nint B[] = {${vetor13b.join(', ')}};\nint C[] = new int[4];\nfor (int i = 0; i < 4; i++) {\n  C[i] = A[i] + B[i];\n}`;
+      valores[13] = {
+        texto: codigo13.replace(/\n/g, '<br>'),
+        resultado: vetor13Soma,
+        dica: "Some os vetores A e B elemento por elemento (C[i] = A[i] + B[i])",
+        tipo: "Soma de Vetores",
+        tamanho: 4,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 14: Busca de valor específico =====
+      let vetor14 = gerarVetor(6, 1, 10);
+      let valorBusca14 = gerarNumero(1, 10);
+      let posicao14 = vetor14.indexOf(valorBusca14);
+      let codigo14 = `int V[] = {${vetor14.join(', ')}};\nint busca = ${valorBusca14};\nint pos = -1;\nfor (int i = 0; i < V.length; i++) {\n  if (V[i] == busca) { pos = i; break; }\n}\nSystem.out.println(pos);`;
+      valores[14] = {
+        texto: codigo14.replace(/\n/g, '<br>'),
+        resultado: [posicao14],
+        dica: `Encontre a posição do valor ${valorBusca14} no vetor (retorna -1 se não encontrar)`,
+        tipo: "Busca por Valor",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 15: Vetor com elementos ao quadrado =====
+      let vetor15 = gerarVetor(4, 1, 8);
+      let vetor15Quadrado = vetor15.map(v => v * v);
+      let codigo15 = `int V[] = {${vetor15.join(', ')}};\nint V2[] = new int[4];\nfor (int i = 0; i < 4; i++) {\n  V2[i] = V[i] * V[i];\n}`;
+      valores[15] = {
+        texto: codigo15.replace(/\n/g, '<br>'),
+        resultado: vetor15Quadrado,
+        dica: "Eleve cada elemento ao quadrado",
+        tipo: "Elevar ao Quadrado",
+        tamanho: 4,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 16: Deslocamento circular à direita =====
+      let vetor16 = gerarVetor(5, 1, 9);
+      let vetor16Deslocado = [vetor16[4], ...vetor16.slice(0, 4)];
+      let codigo16 = `int V[] = {${vetor16.join(', ')}};\nint ultimo = V[4];\nfor (int i = 4; i > 0; i--) {\n  V[i] = V[i-1];\n}\nV[0] = ultimo;`;
+      valores[16] = {
+        texto: codigo16.replace(/\n/g, '<br>'),
+        resultado: vetor16Deslocado,
+        dica: "Desloque todos os elementos uma posição à direita (o último vai para o primeiro)",
+        tipo: "Deslocamento Direita",
+        tamanho: 5,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 17: Deslocamento circular à esquerda =====
+      let vetor17 = gerarVetor(5, 1, 9);
+      let vetor17Deslocado = [...vetor17.slice(1), vetor17[0]];
+      let codigo17 = `int V[] = {${vetor17.join(', ')}};\nint primeiro = V[0];\nfor (int i = 0; i < 4; i++) {\n  V[i] = V[i+1];\n}\nV[4] = primeiro;`;
+      valores[17] = {
+        texto: codigo17.replace(/\n/g, '<br>'),
+        resultado: vetor17Deslocado,
+        dica: "Desloque todos os elementos uma posição à esquerda (o primeiro vai para o último)",
+        tipo: "Deslocamento Esquerda",
+        tamanho: 5,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 18: Soma dos elementos nas posições ímpares =====
+      let vetor18 = gerarVetor(6, 1, 20);
+      let soma18 = 0;
+      for (let i = 1; i < vetor18.length; i += 2) {
+        soma18 += vetor18[i];
+      }
+      let codigo18 = `int V[] = {${vetor18.join(', ')}};\nint soma = 0;\nfor (int i = 1; i < V.length; i += 2) {\n  soma += V[i];\n}\nSystem.out.println(soma);`;
+      valores[18] = {
+        texto: codigo18.replace(/\n/g, '<br>'),
+        resultado: [soma18],
+        dica: "Some os elementos nas posições ímpares (1, 3, 5, ...)",
+        tipo: "Soma de Ímpares",
+        tamanho: 1,
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 19: Vetor com elementos invertidos =====
+      let vetor19 = gerarVetor(4, 1, 9);
+      let vetor19Invertido = vetor19.map((v, i, arr) => arr[arr.length - 1 - i]);
+      let codigo19 = `int V[] = {${vetor19.join(', ')}};\nint V2[] = new int[4];\nfor (int i = 0; i < 4; i++) {\n  V2[i] = V[3-i];\n}`;
+      valores[19] = {
+        texto: codigo19.replace(/\n/g, '<br>'),
+        resultado: vetor19Invertido,
+        dica: "Inverta a ordem dos elementos (V2[0] = V[3], V2[1] = V[2], ...)",
+        tipo: "Inversão",
+        tamanho: 4,
+        tipoResposta: "vetor"
+      };
+
+      // ===== Exercício 20: Intersecção de dois vetores (CORRIGIDO) =====
+      let vetor20a = gerarVetor(5, 1, 10);
+      let vetor20b = gerarVetor(5, 1, 10);
+      let intersecao20 = vetor20a.filter(v => vetor20b.includes(v));
+      // Remove duplicatas
+      intersecao20 = [...new Set(intersecao20)];
+      // Ordena para facilitar comparação
+      intersecao20.sort((a, b) => a - b);
+      let codigo20 = `int A[] = {${vetor20a.join(', ')}};\nint B[] = {${vetor20b.join(', ')}};\n// Encontrar elementos comuns entre A e B (sem duplicatas)`;
+      valores[20] = {
+        texto: codigo20.replace(/\n/g, '<br>'),
+        resultado: intersecao20,
+        dica: "Encontre os elementos que aparecem em ambos os vetores (sem duplicatas)",
+        tipo: "Intersecção",
+        tamanho: 0, // tamanho variável
+        tipoResposta: "vetorVariavel" // NOVO TIPO PARA TAMANHO VARIÁVEL
+      };
+
+      // Renderizar exercícios
+      for (let i = 1; i <= 20; i++) {
+        const bloco = document.createElement("div");
+        bloco.className = "codigo";
+        bloco.id = `bloco${i}`;
+        
+        let html = `<span class="numero-questao">${i}</span> `;
+        if (valores[i].tipo) {
+          html += `<span class="tipo-vetor">${valores[i].tipo}</span>`;
+        }
+        html += `<br>`;
+        html += valores[i].texto;
+        
+        if (valores[i].dica) {
+          html += `<div class="dica">💡 Dica: ${valores[i].dica}</div>`;
+        }
+        
+        html += `<br>`;
+        
+        // Criar inputs baseado no tipo de resposta
+        if (valores[i].tipoResposta === "vetor") {
+          const tamanho = valores[i].tamanho;
+          html += `<div class="vetor-inputs">`;
+          for (let j = 0; j < tamanho; j++) {
+            html += `<label>V[${j}]: <input type="number" class="input-vetor" id="resposta${i}_${j}" placeholder="?"></label>`;
+          }
+          html += `</div>`;
+        } else if (valores[i].tipoResposta === "vetorVariavel") {
+          // Para vetores de tamanho variável (como intersecção)
+          html += `<div class="vetor-inputs" id="container${i}">`;
+          // Criamos 5 inputs (máximo) mas o usuário pode preencher quantos precisar
+          const maxTamanho = 5;
+          html += `<span class="cinza" style="margin-right: 10px;">Elementos (separados):</span>`;
+          for (let j = 0; j < maxTamanho; j++) {
+            html += `<label>V[${j}]: <input type="number" class="input-vetor" id="resposta${i}_${j}" placeholder="?" style="width:50px;"></label>`;
+          }
+          html += `<span class="cinza" style="margin-left: 10px; font-size:0.8em;">Preencha apenas os elementos da intersecção</span>`;
+          html += `</div>`;
+        } else {
+          // tipoResposta === "numero"
+          html += `<input type="text" id="resposta${i}_0" placeholder="Digite o valor">`;
+        }
+        
+        html += `<div class="botoes-questao">`;
+        html += `<button class="verificar-btn" onclick="verificarQuestao(${i})">🔍 Verificar</button>`;
+        html += `<button class="gabarito-btn" onclick="mostrarGabarito(${i})">📖 Gabarito</button>`;
+        html += `<button class="limpar-btn" onclick="limparQuestao(${i})">🧹 Limpar</button>`;
+        html += `</div>`;
+        html += `<div id="feedback${i}" class="feedback"></div>`;
+        
+        bloco.innerHTML = html;
+        container.appendChild(bloco);
+      }
+    }
+
+    function verificarQuestao(i) {
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      
+      if (valores[i].tipoResposta === "vetor") {
+        let correto = true;
+        const tamanho = valores[i].tamanho;
+        let respostas = [];
+        
+        for (let j = 0; j < tamanho; j++) {
+          const input = document.getElementById(`resposta${i}_${j}`);
+          const valor = parseInt(input.value);
+          respostas.push(valor);
+          
+          if (isNaN(valor) || valor !== esperado[j]) {
+            correto = false;
+          }
+        }
+        
+        if (correto) {
+          feedback.innerHTML = `<span class='correto'>✅ Correto! 🎉</span>`;
+          feedback.style.backgroundColor = 'rgba(166, 226, 46, 0.15)';
+          for (let j = 0; j < tamanho; j++) {
+            const input = document.getElementById(`resposta${i}_${j}`);
+            input.classList.add('correto-input');
+            input.classList.remove('errado-input');
+          }
+        } else {
+          feedback.innerHTML = `<span class='errado'>❌ Errado. Vetor esperado: {${esperado.join(', ')}}</span>`;
+          feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+          for (let j = 0; j < tamanho; j++) {
+            const input = document.getElementById(`resposta${i}_${j}`);
+            const valor = parseInt(input.value);
+            if (valor === esperado[j]) {
+              input.classList.add('correto-input');
+              input.classList.remove('errado-input');
+            } else {
+              input.classList.add('errado-input');
+              input.classList.remove('correto-input');
+            }
+          }
+        }
+      } else if (valores[i].tipoResposta === "vetorVariavel") {
+        // Para vetores de tamanho variável (exercício 20)
+        let respostas = [];
+        let todosVazios = true;
+        
+        // Coleta todos os valores preenchidos
+        for (let j = 0; j < 5; j++) {
+          const input = document.getElementById(`resposta${i}_${j}`);
+          if (input) {
+            const valor = input.value.trim();
+            if (valor !== '') {
+              todosVazios = false;
+              const num = parseInt(valor);
+              if (!isNaN(num)) {
+                respostas.push(num);
+              }
+            }
+          }
+        }
+        
+        // Ordena para comparação
+        respostas.sort((a, b) => a - b);
+        const esperadoOrdenado = [...esperado].sort((a, b) => a - b);
+        
+        let correto = true;
+        if (todosVazios) {
+          correto = false;
+          feedback.innerHTML = `<span class='errado'>❌ Preencha pelo menos um elemento da intersecção!</span>`;
+          feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+        } else if (respostas.length !== esperadoOrdenado.length) {
+          correto = false;
+          feedback.innerHTML = `<span class='errado'>❌ Número de elementos incorreto. Esperado: ${esperadoOrdenado.length}, Recebido: ${respostas.length}</span>`;
+          feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+        } else {
+          for (let j = 0; j < respostas.length; j++) {
+            if (respostas[j] !== esperadoOrdenado[j]) {
+              correto = false;
+              break;
+            }
+          }
+          
+          if (correto) {
+            feedback.innerHTML = `<span class='correto'>✅ Correto! 🎉</span>`;
+            feedback.style.backgroundColor = 'rgba(166, 226, 46, 0.15)';
+            for (let j = 0; j < 5; j++) {
+              const input = document.getElementById(`resposta${i}_${j}`);
+              if (input) {
+                const valor = parseInt(input.value);
+                if (esperadoOrdenado.includes(valor)) {
+                  input.classList.add('correto-input');
+                  input.classList.remove('errado-input');
+                } else if (input.value.trim() !== '') {
+                  input.classList.add('errado-input');
+                  input.classList.remove('correto-input');
+                }
+              }
+            }
+          } else {
+            feedback.innerHTML = `<span class='errado'>❌ Errado. Intersecção esperada: {${esperadoOrdenado.join(', ')}}</span>`;
+            feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+          }
+        }
+      } else {
+        // tipoResposta === "numero"
+        const input = document.getElementById(`resposta${i}_0`);
+        const resposta = input.value.trim();
+        const esperadoStr = esperado[0].toString();
+        
+        input.classList.remove('correto-input', 'errado-input');
+        
+        if (resposta === esperadoStr) {
+          feedback.innerHTML = `<span class='correto'>✅ Correto! 🎉</span>`;
+          feedback.style.backgroundColor = 'rgba(166, 226, 46, 0.15)';
+          input.classList.add('correto-input');
+        } else {
+          feedback.innerHTML = `<span class='errado'>❌ Errado. Resposta esperada: ${esperadoStr}</span>`;
+          feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+          input.classList.add('errado-input');
+        }
+      }
+    }
+
+    function mostrarGabarito(i) {
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado;
+      
+      if (valores[i].tipoResposta === "vetor" || valores[i].tipoResposta === "vetorVariavel") {
+        feedback.innerHTML = `<span class='gabarito-texto'>📖 Gabarito: {${esperado.join(', ')}}</span>`;
+        feedback.style.backgroundColor = 'rgba(102, 217, 239, 0.1)';
+      } else {
+        feedback.innerHTML = `<span class='gabarito-texto'>📖 Gabarito: ${esperado[0]}</span>`;
+        feedback.style.backgroundColor = 'rgba(102, 217, 239, 0.1)';
+      }
+    }
+
+    function limparQuestao(i) {
+      if (valores[i].tipoResposta === "vetor") {
+        const tamanho = valores[i].tamanho;
+        for (let j = 0; j < tamanho; j++) {
+          const input = document.getElementById(`resposta${i}_${j}`);
+          if (input) {
+            input.value = '';
+            input.classList.remove('correto-input', 'errado-input');
+          }
+        }
+      } else if (valores[i].tipoResposta === "vetorVariavel") {
+        for (let j = 0; j < 5; j++) {
+          const input = document.getElementById(`resposta${i}_${j}`);
+          if (input) {
+            input.value = '';
+            input.classList.remove('correto-input', 'errado-input');
+          }
+        }
+      } else {
+        const input = document.getElementById(`resposta${i}_0`);
+        if (input) {
+          input.value = '';
+          input.classList.remove('correto-input', 'errado-input');
+        }
+      }
+      
+      const feedback = document.getElementById(`feedback${i}`);
+      if (feedback) {
+        feedback.innerHTML = '';
+        feedback.style.backgroundColor = 'transparent';
+      }
+    }
+
+    function limparFeedback(i) {
+      // Não usado diretamente, mas mantido para compatibilidade
+    }
+
+    function verificarTodas() {
+      let acertos = 0;
+      let total = 20;
+
+      for (let i = 1; i <= 20; i++) {
+        verificarQuestao(i);
+        const feedback = document.getElementById(`feedback${i}`);
+        if (feedback && feedback.innerHTML.includes('Correto')) {
+          acertos++;
+        }
+      }
+
+      const resumoDiv = document.getElementById("resumoFinal");
+      resumoDiv.style.display = "block";
+      
+      const estatisticas = document.getElementById("estatisticas");
+      const porcentagem = (acertos / total * 100).toFixed(1);
+      
+      let emoji, mensagem;
+      if (porcentagem >= 80) {
+        emoji = '🏆';
+        mensagem = 'Excelente! Você domina operações com vetores em Java!';
+      } else if (porcentagem >= 60) {
+        emoji = '📚';
+        mensagem = 'Bom trabalho! Continue praticando com diferentes operações de vetores.';
+      } else {
+        emoji = '💪';
+        mensagem = 'Pratique mais! Foque em entender percurso, soma e manipulação de vetores.';
+      }
+      
+      estatisticas.innerHTML = `
+        <p><strong>${emoji} Resultado:</strong> ${acertos} de ${total} acertos (${porcentagem}%)</p>
+        <div class="barra-progresso">
+          <div class="barra-progresso-preenchida" style="width: ${porcentagem}%;">
+            ${porcentagem}%
+          </div>
+        </div>
+        <p style="margin-top: 15px; color: #75715e; font-style: italic;">${mensagem}</p>
+        <p style="margin-top: 10px; color: #66d9ef; font-size: 0.9em;">
+          💡 Clique em "Gabarito de Todas" para ver todas as respostas corretas.
+        </p>
+      `;
+    }
+
+    function mostrarGabaritoTodas() {
+      for (let i = 1; i <= 20; i++) {
+        mostrarGabarito(i);
+      }
+    }
+
+    function limparTudo() {
+      for (let i = 1; i <= 20; i++) {
+        limparQuestao(i);
+      }
+      document.getElementById("resumoFinal").style.display = "none";
+    }
+
+    // Executar ao abrir a página
+    gerarExercicios();
+  </script>
+</body>
+</html>
