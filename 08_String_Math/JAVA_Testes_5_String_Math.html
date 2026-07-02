@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>20 Exercícios - Java: String e Math</title>
+  <style>
+    body {
+      background-color: #272822;
+      color: #f8f8f2;
+      font-family: 'Courier New', monospace;
+      padding: 20px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    h1, h2, h3 {
+      color: #66d9ef;
+    }
+    .codigo {
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 0 5px #000;
+      white-space: pre-wrap;
+      border-left: 3px solid #fd971f;
+      position: relative;
+    }
+    .verde { color: #a6e22e; }
+    .amarelo { color: #e6db74; }
+    .azul { color: #66d9ef; }
+    .rosa { color: #f92672; }
+    .cinza { color: #75715e; }
+    .laranja { color: #fd971f; }
+    .roxo { color: #ae81ff; }
+    .texto-explicativo {
+      background-color: #1e1f1c;
+      padding: 15px 20px;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      border-left: 4px solid #fd971f;
+      line-height: 1.6;
+    }
+    .texto-explicativo p {
+      margin: 10px 0;
+    }
+    .texto-explicativo strong {
+      color: #a6e22e;
+    }
+    
+    input {
+      background-color: #1e1f1c;
+      color: #f8f8f2;
+      border: 1px solid #555;
+      padding: 5px 8px;
+      margin-top: 8px;
+      width: 250px;
+      font-family: 'Courier New', monospace;
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: #66d9ef;
+      box-shadow: 0 0 5px rgba(102, 217, 239, 0.3);
+    }
+    input.correto-input {
+      border-color: #a6e22e;
+      background-color: rgba(166, 226, 46, 0.1);
+    }
+    input.errado-input {
+      border-color: #f92672;
+      background-color: rgba(249, 38, 114, 0.1);
+    }
+    
+    .botoes-questao {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 8px 16px;
+      background-color: #66d9ef;
+      color: #272822;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+    button.verificar-btn {
+      background-color: #66d9ef;
+    }
+    button.verificar-btn:hover {
+      background-color: #a6e22e;
+    }
+    button.gabarito-btn {
+      background-color: #fd971f;
+    }
+    button.gabarito-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.limpar-btn {
+      background-color: #75715e;
+    }
+    button.limpar-btn:hover {
+      background-color: #f92672;
+      color: white;
+    }
+    button.geral-btn {
+      background-color: #a6e22e;
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+    button.geral-btn:hover {
+      background-color: #66d9ef;
+    }
+    
+    .feedback {
+      margin-top: 5px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+    
+    .correto {
+      color: #a6e22e;
+      font-weight: bold;
+    }
+    .errado {
+      color: #f92672;
+      font-weight: bold;
+    }
+    .gabarito-texto {
+      color: #66d9ef;
+      font-weight: bold;
+    }
+    
+    .dica {
+      color: #75715e;
+      font-size: 0.9em;
+      margin-top: 5px;
+      font-style: italic;
+    }
+    
+    .header-info {
+      background-color: #1e1f1c;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 1px solid #555;
+    }
+    
+    .resumo-final {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #1e1f1c;
+      border-radius: 5px;
+      border: 2px solid #fd971f;
+      display: none;
+    }
+    
+    .barra-progresso {
+      background-color: #272822;
+      height: 25px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+      border: 1px solid #555;
+    }
+    
+    .barra-progresso-preenchida {
+      height: 100%;
+      background: linear-gradient(90deg, #fd971f, #f92672);
+      transition: width 0.8s ease;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 12px;
+    }
+    
+    .numero-questao {
+      display: inline-block;
+      background-color: #fd971f;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 0.9em;
+    }
+    
+    .botoes-gerais {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+    
+    .tipo-exercicio {
+      display: inline-block;
+      background-color: #ae81ff;
+      color: #272822;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    
+    @media (max-width: 600px) {
+      input {
+        width: 100%;
+      }
+      .botoes-questao {
+        flex-direction: column;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>📝 20 Exercícios de Java - String e Math</h1>
+  
+  <!-- TEXTO EXPLICATIVO SOBRE STRING E MATH -->
+  <div class="texto-explicativo">
+    <h3>📚 Classe String e Classe Math em Java</h3>
+    
+    <p><strong>Classe String:</strong> A classe <span class="azul">String</span> em Java representa sequências de caracteres. Strings são imutáveis, ou seja, uma vez criadas, não podem ser alteradas. Qualquer operação que modifique uma string retorna uma nova string. Principais métodos:</p>
+    
+    <p><span class="amarelo">length()</span> - Retorna o número de caracteres<br>
+    <span class="amarelo">charAt(int index)</span> - Retorna o caractere na posição especificada<br>
+    <span class="amarelo">substring(int begin, int end)</span> - Retorna uma parte da string<br>
+    <span class="amarelo">toUpperCase() / toLowerCase()</span> - Converte para maiúsculas/minúsculas<br>
+    <span class="amarelo">indexOf(String str)</span> - Retorna a posição da primeira ocorrência<br>
+    <span class="amarelo">lastIndexOf(String str)</span> - Retorna a posição da última ocorrência<br>
+    <span class="amarelo">replace(char old, char new)</span> - Substitui caracteres<br>
+    <span class="amarelo">trim()</span> - Remove espaços em branco no início e fim<br>
+    <span class="amarelo">toCharArray()</span> - Converte para array de caracteres<br>
+    <span class="amarelo">equals() / equalsIgnoreCase()</span> - Compara strings</p>
+    
+    <p><strong>Classe Math:</strong> A classe <span class="azul">Math</span> fornece métodos para operações matemáticas básicas. Todos os métodos são estáticos, podendo ser chamados diretamente. Principais métodos:</p>
+    
+    <p><span class="amarelo">abs(int a)</span> - Valor absoluto<br>
+    <span class="amarelo">pow(double a, double b)</span> - Potência (a^b)<br>
+    <span class="amarelo">sqrt(double a)</span> - Raiz quadrada<br>
+    <span class="amarelo">max(int a, int b)</span> - Maior entre dois números<br>
+    <span class="amarelo">min(int a, int b)</span> - Menor entre dois números<br>
+    <span class="amarelo">random()</span> - Número aleatório entre 0.0 e 1.0<br>
+    <span class="amarelo">round(double a)</span> - Arredondamento<br>
+    <span class="amarelo">ceil(double a)</span> - Arredonda para cima<br>
+    <span class="amarelo">floor(double a)</span> - Arredonda para baixo<br>
+    <span class="amarelo">PI / E</span> - Constantes matemáticas</p>
+    
+    <p><span class="cinza">💡 Nos exercícios a seguir, você praticará diversos métodos das classes String e Math!</span></p>
+  </div>
+  
+  <div class="header-info">
+    <p><strong>Tópicos:</strong> <span class="azul">String</span> (length, charAt, substring, toUpperCase, indexOf, replace, trim, etc.) | <span class="azul">Math</span> (abs, pow, sqrt, max, min, random, round, etc.)</p>
+    <p><span class="cinza">💡 Digite APENAS o valor que será impresso no console, sem aspas (a menos que seja uma string).</span></p>
+    <p><span class="laranja">📌 Atenção: Para strings, digite o texto entre aspas duplas ou simples.</span></p>
+  </div>
+  
+  <div id="exercicios"></div>
+  
+  <div class="botoes-gerais">
+    <button class="geral-btn" onclick="verificarTodas()">✅ Verificar Todas</button>
+    <button class="geral-btn" style="background-color: #fd971f;" onclick="mostrarGabaritoTodas()">📖 Gabarito de Todas</button>
+    <button class="geral-btn" style="background-color: #75715e;" onclick="limparTudo()">🧹 Limpar Tudo</button>
+    <button class="geral-btn" style="background-color: #f92672; color: white;" onclick="gerarExercicios()">🔄 Nova Série</button>
+  </div>
+  
+  <div id="resumoFinal" class="resumo-final">
+    <h3>📊 Resultado Final</h3>
+    <div id="estatisticas"></div>
+  </div>
+
+  <script>
+    const valores = {};
+
+    function gerarNumero(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function gerarString(tamanho) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      let resultado = '';
+      for (let i = 0; i < tamanho; i++) {
+        resultado += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return resultado;
+    }
+
+    function gerarStringComEspacos(tamanho) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';
+      let resultado = '';
+      for (let i = 0; i < tamanho; i++) {
+        resultado += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return resultado;
+    }
+
+    function gerarExercicios() {
+      const container = document.getElementById("exercicios");
+      container.innerHTML = "";
+      document.getElementById("resumoFinal").style.display = "none";
+
+      // ===== Exercício 1: String.length() =====
+      let str1 = gerarString(gerarNumero(5, 10));
+      let codigo1 = `String str = "${str1}";\nSystem.out.println(str.length());`;
+      valores[1] = {
+        texto: codigo1.replace(/\n/g, '<br>'),
+        resultado: [str1.length.toString()],
+        dica: "length() retorna o número de caracteres da string",
+        tipo: "String.length()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 2: String.charAt() =====
+      let str2 = gerarString(gerarNumero(6, 12));
+      let pos2 = gerarNumero(0, str2.length - 1);
+      let codigo2 = `String str = "${str2}";\nSystem.out.println(str.charAt(${pos2}));`;
+      valores[2] = {
+        texto: codigo2.replace(/\n/g, '<br>'),
+        resultado: [str2.charAt(pos2)],
+        dica: `charAt(${pos2}) retorna o caractere na posição ${pos2} (0-based)`,
+        tipo: "String.charAt()",
+        tipoResposta: "string"
+      };
+
+      // ===== Exercício 3: String.toUpperCase() =====
+      let str3 = gerarString(gerarNumero(5, 8));
+      let codigo3 = `String str = "${str3}";\nSystem.out.println(str.toUpperCase());`;
+      valores[3] = {
+        texto: codigo3.replace(/\n/g, '<br>'),
+        resultado: [str3.toUpperCase()],
+        dica: "toUpperCase() converte todos os caracteres para maiúsculas",
+        tipo: "String.toUpperCase()",
+        tipoResposta: "string"
+      };
+
+      // ===== Exercício 4: String.toLowerCase() =====
+      let str4 = gerarString(gerarNumero(5, 8)).toUpperCase();
+      let codigo4 = `String str = "${str4}";\nSystem.out.println(str.toLowerCase());`;
+      valores[4] = {
+        texto: codigo4.replace(/\n/g, '<br>'),
+        resultado: [str4.toLowerCase()],
+        dica: "toLowerCase() converte todos os caracteres para minúsculas",
+        tipo: "String.toLowerCase()",
+        tipoResposta: "string"
+      };
+
+      // ===== Exercício 5: String.substring() =====
+      let str5 = gerarString(gerarNumero(8, 14));
+      let inicio5 = gerarNumero(0, 3);
+      let fim5 = gerarNumero(str5.length - 3, str5.length);
+      let codigo5 = `String str = "${str5}";\nSystem.out.println(str.substring(${inicio5}, ${fim5}));`;
+      valores[5] = {
+        texto: codigo5.replace(/\n/g, '<br>'),
+        resultado: [str5.substring(inicio5, fim5)],
+        dica: `substring(${inicio5}, ${fim5}) retorna os caracteres da posição ${inicio5} até ${fim5-1}`,
+        tipo: "String.substring()",
+        tipoResposta: "string"
+      };
+
+      // ===== Exercício 6: String.indexOf() =====
+      let str6 = gerarString(gerarNumero(8, 14));
+      let char6 = str6.charAt(gerarNumero(2, str6.length - 3));
+      let codigo6 = `String str = "${str6}";\nSystem.out.println(str.indexOf('${char6}'));`;
+      valores[6] = {
+        texto: codigo6.replace(/\n/g, '<br>'),
+        resultado: [str6.indexOf(char6).toString()],
+        dica: `indexOf('${char6}') retorna a posição da primeira ocorrência do caractere`,
+        tipo: "String.indexOf()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 7: String.lastIndexOf() =====
+      let str7 = gerarString(gerarNumero(8, 14));
+      let char7 = str7.charAt(gerarNumero(2, str7.length - 3));
+      let codigo7 = `String str = "${str7}";\nSystem.out.println(str.lastIndexOf('${char7}'));`;
+      valores[7] = {
+        texto: codigo7.replace(/\n/g, '<br>'),
+        resultado: [str7.lastIndexOf(char7).toString()],
+        dica: `lastIndexOf('${char7}') retorna a posição da última ocorrência do caractere`,
+        tipo: "String.lastIndexOf()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 8: String.replace() =====
+      let str8 = gerarString(gerarNumero(6, 10));
+      let charAntigo8 = str8.charAt(gerarNumero(1, str8.length - 2));
+      let charNovo8 = String.fromCharCode(gerarNumero(65, 90));
+      let codigo8 = `String str = "${str8}";\nSystem.out.println(str.replace('${charAntigo8}', '${charNovo8}'));`;
+      valores[8] = {
+        texto: codigo8.replace(/\n/g, '<br>'),
+        resultado: [str8.replace(new RegExp(charAntigo8, 'g'), charNovo8)],
+        dica: `replace('${charAntigo8}', '${charNovo8}') substitui todas as ocorrências`,
+        tipo: "String.replace()",
+        tipoResposta: "string"
+      };
+
+      // ===== Exercício 9: String.trim() =====
+      let str9 = "  " + gerarString(gerarNumero(5, 8)) + "  ";
+      let codigo9 = `String str = "${str9}";\nSystem.out.println(str.trim());`;
+      valores[9] = {
+        texto: codigo9.replace(/\n/g, '<br>'),
+        resultado: [str9.trim()],
+        dica: "trim() remove espaços em branco no início e fim da string",
+        tipo: "String.trim()",
+        tipoResposta: "string"
+      };
+
+      // ===== Exercício 10: String.equalsIgnoreCase() =====
+      let str10a = gerarString(gerarNumero(4, 7));
+      let str10b = str10a.toUpperCase();
+      let codigo10 = `String str1 = "${str10a}";\nString str2 = "${str10b}";\nSystem.out.println(str1.equalsIgnoreCase(str2));`;
+      valores[10] = {
+        texto: codigo10.replace(/\n/g, '<br>'),
+        resultado: ["true"],
+        dica: "equalsIgnoreCase() compara strings ignorando maiúsculas/minúsculas",
+        tipo: "String.equalsIgnoreCase()",
+        tipoResposta: "string"
+      };
+
+      // ===== Exercício 11: Math.abs() =====
+      let num11 = gerarNumero(-50, -1);
+      let codigo11 = `int num = ${num11};\nSystem.out.println(Math.abs(num));`;
+      valores[11] = {
+        texto: codigo11.replace(/\n/g, '<br>'),
+        resultado: [Math.abs(num11).toString()],
+        dica: "abs() retorna o valor absoluto (positivo) do número",
+        tipo: "Math.abs()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 12: Math.pow() =====
+      let base12 = gerarNumero(2, 5);
+      let exp12 = gerarNumero(2, 4);
+      let codigo12 = `double resultado = Math.pow(${base12}, ${exp12});\nSystem.out.println((int)resultado);`;
+      valores[12] = {
+        texto: codigo12.replace(/\n/g, '<br>'),
+        resultado: [Math.pow(base12, exp12).toString()],
+        dica: `pow(${base12}, ${exp12}) calcula ${base12} elevado a ${exp12}`,
+        tipo: "Math.pow()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 13: Math.sqrt() =====
+      let num13 = gerarNumero(4, 9);
+      let quadrado13 = num13 * num13;
+      let codigo13 = `double num = ${quadrado13};\nSystem.out.println((int)Math.sqrt(num));`;
+      valores[13] = {
+        texto: codigo13.replace(/\n/g, '<br>'),
+        resultado: [num13.toString()],
+        dica: `sqrt(${quadrado13}) calcula a raiz quadrada de ${quadrado13}`,
+        tipo: "Math.sqrt()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 14: Math.max() =====
+      let num14a = gerarNumero(10, 50);
+      let num14b = gerarNumero(10, 50);
+      let codigo14 = `int a = ${num14a}, b = ${num14b};\nSystem.out.println(Math.max(a, b));`;
+      valores[14] = {
+        texto: codigo14.replace(/\n/g, '<br>'),
+        resultado: [Math.max(num14a, num14b).toString()],
+        dica: `max(${num14a}, ${num14b}) retorna o maior entre os dois números`,
+        tipo: "Math.max()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 15: Math.min() =====
+      let num15a = gerarNumero(10, 50);
+      let num15b = gerarNumero(10, 50);
+      let codigo15 = `int a = ${num15a}, b = ${num15b};\nSystem.out.println(Math.min(a, b));`;
+      valores[15] = {
+        texto: codigo15.replace(/\n/g, '<br>'),
+        resultado: [Math.min(num15a, num15b).toString()],
+        dica: `min(${num15a}, ${num15b}) retorna o menor entre os dois números`,
+        tipo: "Math.min()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 16: Math.round() =====
+      let num16 = parseFloat((Math.random() * 10 + 0.5).toFixed(1));
+      let codigo16 = `double num = ${num16};\nSystem.out.println(Math.round(num));`;
+      valores[16] = {
+        texto: codigo16.replace(/\n/g, '<br>'),
+        resultado: [Math.round(num16).toString()],
+        dica: `round(${num16}) arredonda para o inteiro mais próximo`,
+        tipo: "Math.round()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 17: Math.ceil() =====
+      let num17 = parseFloat((Math.random() * 5 + 0.1).toFixed(1));
+      let codigo17 = `double num = ${num17};\nSystem.out.println((int)Math.ceil(num));`;
+      valores[17] = {
+        texto: codigo17.replace(/\n/g, '<br>'),
+        resultado: [Math.ceil(num17).toString()],
+        dica: `ceil(${num17}) arredonda para cima (teto)`,
+        tipo: "Math.ceil()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 18: Math.floor() =====
+      let num18 = parseFloat((Math.random() * 5 + 0.1).toFixed(1));
+      let codigo18 = `double num = ${num18};\nSystem.out.println((int)Math.floor(num));`;
+      valores[18] = {
+        texto: codigo18.replace(/\n/g, '<br>'),
+        resultado: [Math.floor(num18).toString()],
+        dica: `floor(${num18}) arredonda para baixo (piso)`,
+        tipo: "Math.floor()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 19: String.substring() + Math.pow() (NOVO) =====
+      let str19 = gerarString(gerarNumero(8, 14));
+      let inicio19 = gerarNumero(1, 3);
+      let fim19 = gerarNumero(str19.length - 3, str19.length);
+      let subStr19 = str19.substring(inicio19, fim19);
+      let codigo19 = `String str = "${str19}";\nString sub = str.substring(${inicio19}, ${fim19});\nint tamanho = sub.length();\nSystem.out.println((int)Math.pow(tamanho, 2));`;
+      let resultado19 = Math.pow(subStr19.length, 2);
+      valores[19] = {
+        texto: codigo19.replace(/\n/g, '<br>'),
+        resultado: [resultado19.toString()],
+        dica: `Extraia a substring da posição ${inicio19} até ${fim19-1}, calcule seu tamanho e eleve ao quadrado`,
+        tipo: "String.substring() + Math.pow()",
+        tipoResposta: "numero"
+      };
+
+      // ===== Exercício 20: Desafio com String e Math =====
+      let str20 = gerarString(gerarNumero(5, 10));
+      let char20 = str20.charAt(gerarNumero(0, str20.length - 1));
+      let codigo20 = `String str = "${str20}";\nchar c = '${char20}';\nint pos = str.indexOf(c);\nint resultado = (int)Math.pow(pos + 1, 2);\nSystem.out.println(resultado);`;
+      let pos20 = str20.indexOf(char20);
+      let resultado20 = Math.pow(pos20 + 1, 2);
+      valores[20] = {
+        texto: codigo20.replace(/\n/g, '<br>'),
+        resultado: [resultado20.toString()],
+        dica: `Encontre a posição do caractere '${char20}', some 1 e eleve ao quadrado`,
+        tipo: "Desafio String + Math",
+        tipoResposta: "numero"
+      };
+
+      // Renderizar exercícios
+      for (let i = 1; i <= 20; i++) {
+        const bloco = document.createElement("div");
+        bloco.className = "codigo";
+        bloco.id = `bloco${i}`;
+        
+        let html = `<span class="numero-questao">${i}</span> `;
+        if (valores[i].tipo) {
+          html += `<span class="tipo-exercicio">${valores[i].tipo}</span>`;
+        }
+        html += `<br>`;
+        html += valores[i].texto;
+        
+        if (valores[i].dica) {
+          html += `<div class="dica">💡 Dica: ${valores[i].dica}</div>`;
+        }
+        
+        html += `<br>`;
+        
+        // Criar inputs baseado no tipo de resposta
+        if (valores[i].tipoResposta === "string") {
+          html += `<input type="text" id="resposta${i}_0" placeholder='Digite a string (ex: "texto")'>`;
+        } else {
+          // tipoResposta === "numero"
+          html += `<input type="text" id="resposta${i}_0" placeholder="Digite o valor numérico">`;
+        }
+        
+        html += `<div class="botoes-questao">`;
+        html += `<button class="verificar-btn" onclick="verificarQuestao(${i})">🔍 Verificar</button>`;
+        html += `<button class="gabarito-btn" onclick="mostrarGabarito(${i})">📖 Gabarito</button>`;
+        html += `<button class="limpar-btn" onclick="limparQuestao(${i})">🧹 Limpar</button>`;
+        html += `</div>`;
+        html += `<div id="feedback${i}" class="feedback"></div>`;
+        
+        bloco.innerHTML = html;
+        container.appendChild(bloco);
+      }
+    }
+
+    function verificarQuestao(i) {
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado[0];
+      const input = document.getElementById(`resposta${i}_0`);
+      const resposta = input.value.trim();
+
+      input.classList.remove('correto-input', 'errado-input');
+
+      let respostaNormalizada = resposta;
+      let esperadoNormalizado = esperado.toString();
+
+      // Para strings, remover aspas para comparação
+      if (valores[i].tipoResposta === "string") {
+        // Remove aspas simples ou duplas se existirem
+        respostaNormalizada = resposta.replace(/^["']|["']$/g, '');
+        esperadoNormalizado = esperado.toString();
+      }
+
+      if (respostaNormalizada === esperadoNormalizado) {
+        feedback.innerHTML = `<span class='correto'>✅ Correto! 🎉</span>`;
+        feedback.style.backgroundColor = 'rgba(166, 226, 46, 0.15)';
+        input.classList.add('correto-input');
+      } else {
+        let mensagemEsperado = esperado;
+        if (valores[i].tipoResposta === "string") {
+          mensagemEsperado = `"${esperado}"`;
+        }
+        feedback.innerHTML = `<span class='errado'>❌ Errado. Resposta esperada: ${mensagemEsperado}</span>`;
+        feedback.style.backgroundColor = 'rgba(249, 38, 114, 0.15)';
+        input.classList.add('errado-input');
+      }
+    }
+
+    function mostrarGabarito(i) {
+      const feedback = document.getElementById(`feedback${i}`);
+      const esperado = valores[i].resultado[0];
+      
+      let mensagem = esperado;
+      if (valores[i].tipoResposta === "string") {
+        mensagem = `"${esperado}"`;
+      }
+      
+      feedback.innerHTML = `<span class='gabarito-texto'>📖 Gabarito: ${mensagem}</span>`;
+      feedback.style.backgroundColor = 'rgba(102, 217, 239, 0.1)';
+    }
+
+    function limparQuestao(i) {
+      const input = document.getElementById(`resposta${i}_0`);
+      if (input) {
+        input.value = '';
+        input.classList.remove('correto-input', 'errado-input');
+      }
+      
+      const feedback = document.getElementById(`feedback${i}`);
+      if (feedback) {
+        feedback.innerHTML = '';
+        feedback.style.backgroundColor = 'transparent';
+      }
+    }
+
+    function verificarTodas() {
+      let acertos = 0;
+      let total = 20;
+
+      for (let i = 1; i <= 20; i++) {
+        verificarQuestao(i);
+        const feedback = document.getElementById(`feedback${i}`);
+        if (feedback && feedback.innerHTML.includes('Correto')) {
+          acertos++;
+        }
+      }
+
+      const resumoDiv = document.getElementById("resumoFinal");
+      resumoDiv.style.display = "block";
+      
+      const estatisticas = document.getElementById("estatisticas");
+      const porcentagem = (acertos / total * 100).toFixed(1);
+      
+      let emoji, mensagem;
+      if (porcentagem >= 80) {
+        emoji = '🏆';
+        mensagem = 'Excelente! Você domina os métodos de String e Math em Java!';
+      } else if (porcentagem >= 60) {
+        emoji = '📚';
+        mensagem = 'Bom trabalho! Continue praticando com diferentes métodos das classes String e Math.';
+      } else {
+        emoji = '💪';
+        mensagem = 'Pratique mais! Foque em entender os métodos principais de String e Math.';
+      }
+      
+      estatisticas.innerHTML = `
+        <p><strong>${emoji} Resultado:</strong> ${acertos} de ${total} acertos (${porcentagem}%)</p>
+        <div class="barra-progresso">
+          <div class="barra-progresso-preenchida" style="width: ${porcentagem}%;">
+            ${porcentagem}%
+          </div>
+        </div>
+        <p style="margin-top: 15px; color: #75715e; font-style: italic;">${mensagem}</p>
+        <p style="margin-top: 10px; color: #66d9ef; font-size: 0.9em;">
+          💡 Clique em "Gabarito de Todas" para ver todas as respostas corretas.
+        </p>
+      `;
+    }
+
+    function mostrarGabaritoTodas() {
+      for (let i = 1; i <= 20; i++) {
+        mostrarGabarito(i);
+      }
+    }
+
+    function limparTudo() {
+      for (let i = 1; i <= 20; i++) {
+        limparQuestao(i);
+      }
+      document.getElementById("resumoFinal").style.display = "none";
+    }
+
+    // Executar ao abrir a página
+    gerarExercicios();
+  </script>
+</body>
+</html>
