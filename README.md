@@ -150,4 +150,4 @@ Durante os estudos, o aluno terá contato com:
 - Rui Rossi dos Santos
 - Material utilizado como referência para as aulas de Swing.
 
-**☕ "Aprender programação é aprender a resolver problemas de forma organizada."**
+> **☕ "Aprender programação é aprender a resolver problemas de forma organizada."**
